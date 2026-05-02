@@ -3,70 +3,69 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#FFF",
   },
 
   content: {
     flex: 1,
     backgroundColor: "#FFF",
-    marginHorizontal: 24,
-    marginVertical: 40,
     paddingHorizontal: 24,
-    paddingTop: 40,
     paddingBottom: 24,
-    justifyContent: "space-between",
+    justifyContent: "center",
     overflow: "hidden",
   },
 
   logoContainer: {
     alignItems: "center",
-    marginTop: 20,
-  },
-
-  logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 8,
+    marginBottom: 30,
   },
 
   logoText: {
-    fontSize: 18,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
+    fontSize: 32,
     color: "#E89B17",
     letterSpacing: 1,
   },
 
   textContainer: {
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 40,
   },
 
   title: {
+    fontFamily: "Poppins_700Bold",
     fontSize: 24,
-    fontWeight: "700",
     color: "#C97D00",
     textAlign: "center",
-    lineHeight: 28,
+    lineHeight: 30,
   },
 
   description: {
+    fontFamily: "Poppins_400Regular",
     fontSize: 13,
     color: "#444",
     textAlign: "center",
     marginTop: 12,
-    lineHeight: 18,
+    lineHeight: 20,
     paddingHorizontal: 8,
   },
 
+  authContainer: {
+    width: "100%",
+    gap: 10,
+    alignItems: "center",
+  },
+
   section: {
+    width: "100%",
     alignItems: "center",
   },
 
   sectionText: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 14,
     color: "#222",
-    marginBottom: 14,
+    marginBottom: 8,
   },
 
   primaryButton: {
@@ -78,22 +77,24 @@ export const styles = StyleSheet.create({
   },
 
   primaryButtonText: {
+    fontFamily: "Poppins_700Bold",
     color: "#FFF",
     fontSize: 18,
-    fontWeight: "700",
   },
 
   dividerRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 16,
-    marginVertical: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+    width: "100%",
+    marginVertical: 15,
   },
 
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: "#8D8D8D",
+    backgroundColor: "#D1D1D1",
   },
 
   secondaryButton: {
@@ -103,19 +104,21 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#6D6D6D",
+    borderColor: "#D1D1D1",
   },
 
   secondaryButtonText: {
+    fontFamily: "Poppins_700Bold",
     color: "#111",
     fontSize: 18,
-    fontWeight: "700",
   },
 
   dotsContainer: {
-    position: "relative",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
     height: 50,
-    marginTop: 10,
   },
 
   dot: {

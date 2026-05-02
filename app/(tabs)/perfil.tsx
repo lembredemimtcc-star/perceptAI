@@ -8,6 +8,13 @@ import {
   View,
 } from "react-native";
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { styles } from "@/styles/perfil.styles";
 
 type ProfileItemProps = {
@@ -30,6 +37,14 @@ function ProfileItem({ icon, label, value }: ProfileItemProps) {
 }
 
 export default function PerfilScreen() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -75,9 +90,9 @@ export default function PerfilScreen() {
             <View style={styles.separator} />
 
             <ProfileItem
-              icon="call-outline"
-              label="Telefone"
-              value="(11) 99999-9999"
+              icon="calendar-outline"
+              label="Data de Nascimento"
+              value="12/08/2005"
             />
           </View>
 
@@ -96,10 +111,6 @@ export default function PerfilScreen() {
               <Ionicons name="chevron-forward" size={20} color="#CCC" />
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity style={styles.logoutButton} activeOpacity={0.7}>
-            <Text style={styles.logoutText}>Sair da Conta</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>

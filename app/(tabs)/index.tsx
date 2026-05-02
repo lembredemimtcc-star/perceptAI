@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
+
 import {
   SafeAreaView,
   ScrollView,
@@ -8,11 +9,21 @@ import {
   View,
 } from "react-native";
 
+import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from "@expo-google-fonts/poppins";
+
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { styles } from "@/styles/home.styles";
 
 export default function HomeScreen() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
+  if (!fontsLoaded) return null;
+
   const days = Array.from({ length: 31 }, (_, i) =>
     (i + 1).toString().padStart(2, "0"),
   );

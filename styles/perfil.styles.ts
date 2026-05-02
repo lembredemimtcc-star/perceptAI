@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
 
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 0,
     marginTop: 10,
     paddingBottom: 40,
   },
@@ -19,7 +18,7 @@ export const styles = StyleSheet.create({
 
   titleText: {
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     color: "#000",
   },
 
@@ -43,10 +42,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 3,
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     position: "relative",
@@ -68,7 +64,7 @@ export const styles = StyleSheet.create({
 
   userName: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     marginTop: 15,
     color: "#333",
   },
@@ -76,6 +72,7 @@ export const styles = StyleSheet.create({
   userEmail: {
     fontSize: 14,
     color: "#777",
+    fontFamily: "Poppins_400Regular",
   },
 
   infoSection: {
@@ -84,7 +81,7 @@ export const styles = StyleSheet.create({
 
   sectionTitle: {
     fontSize: 15,
-    fontWeight: "bold",
+    fontFamily: "Poppins_600SemiBold",
     color: "#C68911",
     marginBottom: 10,
     marginTop: 15,
@@ -111,12 +108,13 @@ export const styles = StyleSheet.create({
   itemLabel: {
     fontSize: 12,
     color: "#999",
+    fontFamily: "Poppins_400Regular",
   },
 
   itemValue: {
     fontSize: 16,
     color: "#333",
-    fontWeight: "500",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   separator: {
@@ -136,19 +134,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     marginLeft: 15,
-  },
-
-  logoutButton: {
-    marginTop: 30,
-    backgroundColor: "#FFE5E5",
-    padding: 15,
-    borderRadius: 15,
-    alignItems: "center",
-  },
-
-  logoutText: {
-    color: "#FF4D4D",
-    fontWeight: "bold",
-    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
   },
 });

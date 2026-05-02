@@ -6,19 +6,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 export function CustomDrawer(props: any) {
   return (
     <View style={styles.container}>
-      <DrawerContentScrollView 
-        {...props} 
-        contentContainerStyle={{ paddingTop: 0 }}
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={styles.scrollContent}
         style={styles.drawerScrollView}
       >
         <View style={styles.header}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => props.navigation.closeDrawer()}
             style={styles.closeButton}
           >
-            <Ionicons name="close" size={30} color="black" />
+            <Ionicons name="close" size={30} color="#000" />
           </TouchableOpacity>
-          
+
           <View style={styles.userInfo}>
             <Text style={styles.userName}>Ana Clara</Text>
             <Text style={styles.userEmail}>ana@gmail.com</Text>
@@ -26,7 +26,6 @@ export function CustomDrawer(props: any) {
         </View>
 
         <View style={styles.menuList}>
-          {/* O segredo está aqui: ele vai ler as cores do _layout.tsx */}
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
@@ -37,41 +36,56 @@ export function CustomDrawer(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#FFF",
   },
+
   drawerScrollView: {
     flex: 1,
+    margin: 0,
+    padding: 0,
   },
+
+  scrollContent: {
+    flexGrow: 1,
+    paddingTop: 0,
+  },
+
   header: {
-    backgroundColor: '#F2A31B',
+    backgroundColor: "#F2A31B",
     paddingHorizontal: 20,
-    paddingTop: 60, 
+    paddingTop: 60,
     paddingBottom: 40,
-    width: '100%',
+    width: "100%",
     borderTopRightRadius: 60,
-    alignItems: 'center',
+    alignItems: "center",
   },
+
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     top: 25,
     zIndex: 10,
   },
+
   userInfo: {
-    alignItems: 'center',
+    alignItems: "center",
   },
+
   userName: {
+    fontFamily: "Poppins_700Bold",
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
+    color: "#000",
   },
+
   userEmail: {
+    fontFamily: "Poppins_400Regular",
     fontSize: 16,
-    color: 'black',
+    color: "#000",
   },
+
   menuList: {
     flex: 1,
     paddingTop: 10,
-    // Verifique se não há nada aqui forçando cores
+    paddingHorizontal: 10,
   },
 });

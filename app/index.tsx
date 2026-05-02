@@ -2,13 +2,14 @@ import { styles } from "@/styles/splash.styles";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
 import {
-    Animated,
-    Dimensions,
-    Easing,
-    Image,
-    SafeAreaView,
-    Text,
-    View,
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  SafeAreaView,
+  Text,
+  View,
+  DimensionValue,
 } from "react-native";
 
 const { width, height } = Dimensions.get("window");
@@ -36,7 +37,8 @@ export default function Index() {
   const bottomDots = useMemo(
     () =>
       Array.from({ length: BOTTOM_DOTS }, (_, index) => ({
-        left: `${(index * 7) % 100}%`,
+        // Usamos 'as DimensionValue' para corrigir o erro de tipagem do TypeScript
+        left: `${(index * 7) % 100}%` as DimensionValue,
         bottom: index % 3 === 0 ? 10 : index % 2 === 0 ? 25 : 15,
         size: 7 + (index % 5),
       })),

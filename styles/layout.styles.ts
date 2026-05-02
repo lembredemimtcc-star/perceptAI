@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
   },
 
   titleText: {
+    fontFamily: "Poppins_700Bold",
     fontSize: 18,
-    fontWeight: "bold",
     color: "#000",
   },
 

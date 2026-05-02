@@ -4,9 +4,24 @@ import { Drawer } from "expo-router/drawer";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { styles } from "@/styles/layout.styles";
 
 export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -25,6 +40,26 @@ export default function Layout() {
           headerTitleContainerStyle: {
             marginLeft: -10,
           },
+
+          drawerStyle: {
+            backgroundColor: "transparent",
+            width: "85%",
+          },
+
+          sceneContainerStyle: {
+            backgroundColor: "transparent",
+          },
+
+          // 🔥 AQUI ESTÁ O EFEITO ESCURO
+          overlayColor: "rgba(0,0,0,0.4)",
+
+          drawerLabelStyle: {
+            fontFamily: "Poppins_600SemiBold",
+            fontSize: 15,
+          },
+
+          drawerActiveTintColor: "#F2A31B",
+          drawerInactiveTintColor: "#333",
 
           headerTitle: ({ children }) => (
             <View style={styles.titleContainer}>

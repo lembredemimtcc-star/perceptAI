@@ -1,38 +1,42 @@
+// login.styles.ts
+
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F4F4F4",
+    backgroundColor: "#FFF",
   },
 
   content: {
     flex: 1,
     backgroundColor: "#FFF",
-    marginHorizontal: 24,
-    marginVertical: 40,
-    paddingHorizontal: 24,
-    paddingTop: 40,
-    paddingBottom: 24,
-    justifyContent: "space-between",
     overflow: "hidden",
   },
 
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingVertical: 40,
+  },
+
   title: {
-    fontSize: 30,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
+    fontSize: 34,
     color: "#C97D00",
     textAlign: "center",
-    marginBottom: 14,
+    marginBottom: 8,
   },
 
   description: {
+    fontFamily: "Poppins_400Regular",
     fontSize: 12,
     color: "#444",
     textAlign: "center",
     lineHeight: 18,
-    marginBottom: 30,
-    paddingHorizontal: 8,
+    marginBottom: 28,
+    paddingHorizontal: 10,
   },
 
   form: {
@@ -40,13 +44,14 @@ export const styles = StyleSheet.create({
   },
 
   input: {
+    fontFamily: "Poppins_400Regular",
     width: "100%",
     height: 46,
     backgroundColor: "#EFEFEF",
     borderRadius: 8,
     paddingHorizontal: 14,
     color: "#111",
-    fontSize: 14,
+    fontSize: 13,
   },
 
   passwordContainer: {
@@ -60,48 +65,52 @@ export const styles = StyleSheet.create({
   },
 
   passwordInput: {
+    fontFamily: "Poppins_400Regular",
     flex: 1,
     color: "#111",
-    fontSize: 14,
+    fontSize: 13,
+    height: "100%",
   },
 
-  dividerRow: {
+  dividerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    marginBottom: 20,
+    marginTop: 30,
+    marginBottom: 22,
+    gap: 12,
   },
 
-  divider: {
+  line: {
     flex: 1,
     height: 1,
-    backgroundColor: "#8D8D8D",
+    backgroundColor: "#BDBDBD",
   },
 
   dividerText: {
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 14,
-    fontWeight: "600",
     color: "#111",
   },
 
-  socialRow: {
+  socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 16,
-    marginBottom: 24,
+    gap: 18,
+    marginBottom: 34,
   },
 
   socialButton: {
     width: 42,
     height: 42,
     borderRadius: 999,
-    backgroundColor: "#EFEFEF",
+    backgroundColor: "#F1F1F1",
     justifyContent: "center",
     alignItems: "center",
   },
 
   loginButton: {
-    width: "100%",
+    width: "70%",
+    alignSelf: "center",
     backgroundColor: "#E89B17",
     paddingVertical: 14,
     borderRadius: 8,
@@ -109,15 +118,16 @@ export const styles = StyleSheet.create({
   },
 
   loginButtonText: {
+    fontFamily: "Poppins_700Bold",
     color: "#FFF",
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 15,
   },
 
-  dotsContainer: {
-    position: "relative",
-    height: 50,
-    marginTop: 10,
+  bottomDots: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: 40,
   },
 
   dot: {

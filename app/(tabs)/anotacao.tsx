@@ -4,10 +4,16 @@ import {
   FlatList,
   SafeAreaView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 
 import { styles } from "@/styles/anotacao.styles";
 
@@ -17,18 +23,15 @@ type Nota = {
 };
 
 export default function AnotacaoScreen() {
-  const [nota, setNota] = useState("");
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
   const [listaNotas, setListaNotas] = useState<Nota[]>([]);
 
-  const adicionarNota = () => {
-    if (nota.trim().length > 0) {
-      setListaNotas([
-        ...listaNotas,
-        { id: Math.random().toString(), texto: nota },
-      ]);
-      setNota("");
-    }
-  };
+  if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,21 +39,16 @@ export default function AnotacaoScreen() {
         <Text style={styles.titleText}>Anotações</Text>
         <View style={styles.headerLine} />
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Escreva uma nova nota..."
-            value={nota}
-            onChangeText={setNota}
-            placeholderTextColor="#999"
-          />
+        {/* BOTÕES NOVOS */}
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>Anotações</Text>
+          </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={adicionarNota}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="add" size={30} color="white" />
+          <TouchableOpacity style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>
+              Adicionar Anotação
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -69,7 +67,9 @@ export default function AnotacaoScreen() {
             </View>
           )}
           ListEmptyComponent={
-            <Text style={styles.emptyText}>Nenhuma nota anotada ainda.</Text>
+            <Text style={styles.emptyText}>
+              Nenhuma nota anotada ainda.
+            </Text>
           }
         />
       </View>

@@ -1,25 +1,47 @@
+// login.tsx
+
 import { styles } from "@/styles/login.styles";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 export default function LoginScreen() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+  });
+
   const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
           <Text style={styles.title}>Login</Text>
+
           <Text style={styles.description}>
-            É muito bom ter você novamente! Aproveite ao máximo nossa página
+            É muito bom ver você novamente! Aproveite ao máximo nossa página
             web, que preparamos especialmente para você.
           </Text>
 
@@ -37,31 +59,32 @@ export default function LoginScreen() {
                 placeholderTextColor="#9A9A9A"
                 secureTextEntry={!mostrarSenha}
               />
-              <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
+
+              <TouchableOpacity
+                onPress={() => setMostrarSenha(!mostrarSenha)}
+              >
                 <Ionicons
                   name={mostrarSenha ? "eye-outline" : "eye-off-outline"}
                   size={20}
-                  color="#9A9A9A"
+                  color="#8A8A8A"
                 />
               </TouchableOpacity>
             </View>
           </View>
-        </View>
 
-        <View>
-          <View style={styles.dividerRow}>
-            <View style={styles.divider} />
+          <View style={styles.dividerContainer}>
+            <View style={styles.line} />
             <Text style={styles.dividerText}>ou use sua conta</Text>
-            <View style={styles.divider} />
+            <View style={styles.line} />
           </View>
 
-          <View style={styles.socialRow}>
+          <View style={styles.socialContainer}>
             <TouchableOpacity style={styles.socialButton}>
-              <Ionicons name="logo-facebook" size={24} color="#111" />
+              <FontAwesome name="facebook" size={20} color="#000" />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.socialButton}>
-              <Ionicons name="logo-google" size={24} color="#111" />
+              <FontAwesome name="google" size={20} color="#000" />
             </TouchableOpacity>
           </View>
 
@@ -71,19 +94,19 @@ export default function LoginScreen() {
           >
             <Text style={styles.loginButtonText}>Logar</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
 
-        <View style={styles.dotsContainer}>
-          {Array.from({ length: 18 }).map((_, index) => (
+        <View style={styles.bottomDots}>
+          {Array.from({ length: 35 }).map((_, index) => (
             <View
               key={index}
               style={[
                 styles.dot,
                 {
-                  left: `${index * 6}%`,
-                  bottom: index % 3 === 0 ? 5 : index % 2 === 0 ? 22 : 12,
-                  width: 7 + (index % 4),
-                  height: 7 + (index % 4),
+                  left: `${(index * 3) % 100}%`,
+                  bottom: Math.random() * 20,
+                  width: 6 + Math.random() * 8,
+                  height: 6 + Math.random() * 8,
                   borderRadius: 999,
                 },
               ]}

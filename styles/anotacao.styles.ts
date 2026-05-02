@@ -9,13 +9,12 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 0,
     marginTop: 10,
   },
 
   titleText: {
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     color: "#000",
   },
 
@@ -26,36 +25,40 @@ export const styles = StyleSheet.create({
     marginBottom: 25,
   },
 
-  inputContainer: {
+  /* BOTÕES */
+  buttonsContainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 25,
   },
 
-  input: {
+  secondaryButton: {
     flex: 1,
-    height: 50,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#E6D3B3",
+    paddingVertical: 12,
     borderRadius: 12,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    color: "#333",
+    alignItems: "center",
+    marginRight: 10,
   },
 
-  addButton: {
-    width: 50,
-    height: 50,
+  primaryButton: {
+    flex: 1,
     backgroundColor: "#F2A31B",
+    paddingVertical: 12,
     borderRadius: 12,
-    justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  },
+
+  secondaryButtonText: {
+    fontFamily: "Poppins_600SemiBold",
+    color: "#000",
+    fontSize: 14,
+  },
+
+  primaryButtonText: {
+    fontFamily: "Poppins_600SemiBold",
+    color: "#000",
+    fontSize: 14,
   },
 
   notaItem: {
@@ -74,7 +77,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: "#444",
     marginLeft: 10,
-    fontWeight: "500",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   emptyText: {
@@ -82,5 +85,6 @@ export const styles = StyleSheet.create({
     color: "#999",
     marginTop: 40,
     fontSize: 14,
+    fontFamily: "Poppins_400Regular",
   },
 });

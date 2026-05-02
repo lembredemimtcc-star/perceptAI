@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
 
   welcomeText: {
     fontSize: 26,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     color: "#000",
   },
 
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
 
   sectionTitle: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "Poppins_600SemiBold",
     color: "#C68911",
     marginBottom: 8,
   },
@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
   description: {
     fontSize: 13,
     textAlign: "center",
+    fontFamily: "Poppins_400Regular",
     color: "#333",
     lineHeight: 18,
     marginBottom: 15,
@@ -71,7 +72,7 @@ export const styles = StyleSheet.create({
   instructionText: {
     textAlign: "center",
     fontSize: 13,
-    fontWeight: "500",
+    fontFamily: "Poppins_400Regular", // corrigido
   },
 
   calendarHeader: {
@@ -89,7 +90,7 @@ export const styles = StyleSheet.create({
 
   monthText: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   arrowButton: {
@@ -110,7 +111,7 @@ export const styles = StyleSheet.create({
     width: "13%",
     textAlign: "center",
     fontSize: 12,
-    fontWeight: "500",
+    fontFamily: "Poppins_600SemiBold", // corrigido
   },
 
   calendarGrid: {
@@ -144,7 +145,7 @@ export const styles = StyleSheet.create({
 
   dayLabel: {
     fontSize: 13,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   bottomButtonContainer: {
