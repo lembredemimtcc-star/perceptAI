@@ -18,20 +18,20 @@ import {
 import { styles } from "@/styles/perfil.styles";
 
 type ProfileItemProps = {
-  icon: any;
   label: string;
   value: string;
 };
 
-function ProfileItem({ icon, label, value }: ProfileItemProps) {
+function ProfileItem({ label, value }: ProfileItemProps) {
   return (
-    <View style={styles.itemRow}>
-      <Ionicons name={icon} size={22} color="#F2A31B" />
-
-      <View style={styles.itemTextContainer}>
+    <View style={styles.itemContainer}>
+      <View style={styles.itemRow}>
         <Text style={styles.itemLabel}>{label}</Text>
+
         <Text style={styles.itemValue}>{value}</Text>
       </View>
+
+      <View style={styles.separator} />
     </View>
   );
 }
@@ -52,65 +52,38 @@ export default function PerfilScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.headerContainer}>
-          <Text style={styles.titleText}>Editar Perfil</Text>
+          <Text style={styles.titleText}>Perfil</Text>
           <View style={styles.headerLine} />
         </View>
 
         <View style={styles.avatarContainer}>
           <View style={styles.avatarCircle}>
-            <Ionicons name="person" size={70} color="#F2A31B" />
+            <View style={styles.cameraIconContainer}>
+              <Ionicons
+                name="camera-outline"
+                size={60}
+                color="#E89B12"
+              />
+            </View>
 
-            <TouchableOpacity style={styles.editBadge} activeOpacity={0.7}>
-              <Ionicons name="camera" size={20} color="white" />
+            <TouchableOpacity
+              style={styles.editBadge}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="pencil" size={14} color="#000" />
             </TouchableOpacity>
           </View>
-
-          <Text style={styles.userName}>Ana Clara</Text>
-          <Text style={styles.userEmail}>ana@gmail.com</Text>
         </View>
 
         <View style={styles.infoSection}>
-          <Text style={styles.sectionTitle}>Informações Pessoais</Text>
+          <ProfileItem label="Username" value="Anaclara123" />
 
-          <View style={styles.card}>
-            <ProfileItem
-              icon="person-outline"
-              label="Nome Completo"
-              value="Ana Clara da Silva"
-            />
+          <ProfileItem label="Email" value="Ana@gmail.com" />
 
-            <View style={styles.separator} />
-
-            <ProfileItem
-              icon="mail-outline"
-              label="E-mail"
-              value="ana@gmail.com"
-            />
-
-            <View style={styles.separator} />
-
-            <ProfileItem
-              icon="calendar-outline"
-              label="Data de Nascimento"
-              value="12/08/2005"
-            />
-          </View>
-
-          <Text style={styles.sectionTitle}>Conta</Text>
-
-          <View style={styles.card}>
-            <TouchableOpacity style={styles.actionItem} activeOpacity={0.6}>
-              <Ionicons
-                name="shield-checkmark-outline"
-                size={22}
-                color="#333"
-              />
-
-              <Text style={styles.actionText}>Alterar Senha</Text>
-
-              <Ionicons name="chevron-forward" size={20} color="#CCC" />
-            </TouchableOpacity>
-          </View>
+          <ProfileItem
+            label="Date of birth"
+            value="01/01/2001"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

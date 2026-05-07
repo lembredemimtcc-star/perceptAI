@@ -152,4 +152,9 @@ export const styles = StyleSheet.create({
     marginTop: -25,
     marginBottom: 20,
   },
+  calendar: {
+    width: "100%",
+    borderRadius: 16,
+    paddingBottom: 10,
+  },
 });

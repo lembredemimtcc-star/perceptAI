@@ -1,5 +1,3 @@
-// login.tsx
-
 import { styles } from "@/styles/login.styles";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -19,6 +17,8 @@ import {
   Poppins_600SemiBold,
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
+
+import { LoginButton } from "@/components/buttons/LoginButton";
 
 export default function LoginScreen() {
   const [fontsLoaded] = useFonts({
@@ -41,8 +41,9 @@ export default function LoginScreen() {
           <Text style={styles.title}>Login</Text>
 
           <Text style={styles.description}>
-            É muito bom ver você novamente! Aproveite ao máximo nossa página
-            web, que preparamos especialmente para você.
+            É muito bom ver você novamente! Aproveite ao máximo
+            nossa página web, que preparamos especialmente para
+            você.
           </Text>
 
           <View style={styles.form}>
@@ -64,7 +65,11 @@ export default function LoginScreen() {
                 onPress={() => setMostrarSenha(!mostrarSenha)}
               >
                 <Ionicons
-                  name={mostrarSenha ? "eye-outline" : "eye-off-outline"}
+                  name={
+                    mostrarSenha
+                      ? "eye-outline"
+                      : "eye-off-outline"
+                  }
                   size={20}
                   color="#8A8A8A"
                 />
@@ -74,26 +79,36 @@ export default function LoginScreen() {
 
           <View style={styles.dividerContainer}>
             <View style={styles.line} />
-            <Text style={styles.dividerText}>ou use sua conta</Text>
+
+            <Text style={styles.dividerText}>
+              ou use sua conta
+            </Text>
+
             <View style={styles.line} />
           </View>
 
           <View style={styles.socialContainer}>
             <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome name="facebook" size={20} color="#000" />
+              <FontAwesome
+                name="facebook"
+                size={20}
+                color="#000"
+              />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.socialButton}>
-              <FontAwesome name="google" size={20} color="#000" />
+              <FontAwesome
+                name="google"
+                size={20}
+                color="#000"
+              />
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            style={styles.loginButton}
+          <LoginButton
+            title="Logar"
             onPress={() => router.replace("/(tabs)")}
-          >
-            <Text style={styles.loginButtonText}>Logar</Text>
-          </TouchableOpacity>
+          />
         </ScrollView>
 
         <View style={styles.bottomDots}>

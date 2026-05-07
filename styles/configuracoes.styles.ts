@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
 
   headerLine: {
-    width: 150,
+    width: 230,
     height: 1.5,
     backgroundColor: "#000",
     marginBottom: 10,
@@ -103,17 +103,18 @@ export const styles = StyleSheet.create({
   },
 
   fontButton: {
-    width: 30,
-    height: 30,
+    width: 42,
+    height: 42,
     backgroundColor: "#EDEDED",
-    borderRadius: 6,
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 5,
+    marginLeft: 8,
   },
 
   fontText: {
     fontFamily: "Poppins_600SemiBold",
+    fontSize: 18,
   },
 
   /* BOTÕES */

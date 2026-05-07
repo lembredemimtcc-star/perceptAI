@@ -1,16 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
+import {SafeAreaView,ScrollView,Text,TouchableOpacity,View,} from "react-native";
 import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from "@expo-google-fonts/poppins";
-
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { styles } from "@/styles/home.styles";

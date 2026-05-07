@@ -18,6 +18,8 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
+import { LoginButton } from "@/components/buttons/LoginButton";
+
 export default function CadastroScreen() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -30,7 +32,6 @@ export default function CadastroScreen() {
 
   if (!fontsLoaded) return null;
 
-  // FORMATAÇÃO AUTOMÁTICA DD/MM/AAAA
   const formatarData = (text: string) => {
     let cleaned = text.replace(/\D/g, "");
 
@@ -55,8 +56,9 @@ export default function CadastroScreen() {
           <Text style={styles.title}>Cadastro</Text>
 
           <Text style={styles.description}>
-            Cadastre-se e tenha acesso completo à plataforma. Tudo foi
-            desenvolvido para oferecer a melhor experiência possível.
+            Cadastre-se e tenha acesso completo à plataforma.
+            Tudo foi desenvolvido para oferecer a melhor
+            experiência possível.
           </Text>
 
           <View style={styles.form}>
@@ -66,14 +68,15 @@ export default function CadastroScreen() {
               placeholderTextColor="#9A9A9A"
             />
 
-            {/* DATA DE NASCIMENTO */}
             <TextInput
               style={styles.input}
               placeholder="Data de nascimento (DD/MM/AAAA)"
               placeholderTextColor="#9A9A9A"
               keyboardType="numeric"
               value={dataNascimento}
-              onChangeText={(text) => setDataNascimento(formatarData(text))}
+              onChangeText={(text) =>
+                setDataNascimento(formatarData(text))
+              }
               maxLength={10}
             />
 
@@ -95,19 +98,21 @@ export default function CadastroScreen() {
                 onPress={() => setMostrarSenha(!mostrarSenha)}
               >
                 <Ionicons
-                  name={mostrarSenha ? "eye-outline" : "eye-off-outline"}
+                  name={
+                    mostrarSenha
+                      ? "eye-outline"
+                      : "eye-off-outline"
+                  }
                   size={20}
                   color="#8A8A8A"
                 />
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              style={styles.cadastroButton}
+            <LoginButton
+              title="Cadastrar"
               onPress={() => router.replace("/login")}
-            >
-              <Text style={styles.cadastroButtonText}>Cadastrar</Text>
-            </TouchableOpacity>
+            />
           </View>
         </ScrollView>
 

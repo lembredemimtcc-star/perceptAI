@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
 
   headerContainer: {
     marginBottom: 25,
+    alignItems: "flex-start",
   },
 
   titleText: {
@@ -23,117 +24,77 @@ export const styles = StyleSheet.create({
   },
 
   headerLine: {
-    width: 150,
+    width: 110,
     height: 1.5,
     backgroundColor: "#000",
+    marginTop: 4,
   },
 
   avatarContainer: {
     alignItems: "center",
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 70,
   },
 
   avatarCircle: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: "#F5F5F5",
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    borderWidth: 7,
+    borderColor: "#E89B12",
+    backgroundColor: "transparent",
+    position: "relative",
+  },
+
+  cameraIconContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    position: "relative",
   },
 
   editBadge: {
     position: "absolute",
-    bottom: 0,
-    right: 5,
-    backgroundColor: "#F2A31B",
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    bottom: -2,
+    right: -2,
+    backgroundColor: "#D88E0A",
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 3,
-    borderColor: "#FFF",
-  },
-
-  userName: {
-    fontSize: 22,
-    fontFamily: "Poppins_700Bold",
-    marginTop: 15,
-    color: "#333",
-  },
-
-  userEmail: {
-    fontSize: 14,
-    color: "#777",
-    fontFamily: "Poppins_400Regular",
   },
 
   infoSection: {
     marginTop: 10,
+    gap: 35,
   },
 
-  sectionTitle: {
-    fontSize: 15,
-    fontFamily: "Poppins_600SemiBold",
-    color: "#C68911",
-    marginBottom: 10,
-    marginTop: 15,
-  },
-
-  card: {
-    backgroundColor: "#FFF",
-    borderRadius: 15,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: "#F0F0F0",
+  itemContainer: {
+    width: "100%",
   },
 
   itemRow: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 8,
-  },
-
-  itemTextContainer: {
-    marginLeft: 15,
+    marginBottom: 10,
   },
 
   itemLabel: {
-    fontSize: 12,
-    color: "#999",
+    fontSize: 16,
+    color: "#9B9B9B",
     fontFamily: "Poppins_400Regular",
   },
 
   itemValue: {
-    fontSize: 16,
-    color: "#333",
+    fontSize: 18,
+    color: "#111",
     fontFamily: "Poppins_600SemiBold",
   },
 
   separator: {
+    width: "100%",
     height: 1,
-    backgroundColor: "#F0F0F0",
-    marginVertical: 5,
-  },
-
-  actionItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 5,
-  },
-
-  actionText: {
-    flex: 1,
-    fontSize: 16,
-    color: "#333",
-    marginLeft: 15,
-    fontFamily: "Poppins_400Regular",
+    backgroundColor: "#7A7A7A",
   },
 });
