@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-
+import {SafeAreaView,ScrollView,Text,View,TouchableOpacity,TextInput,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
+import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
 import { styles } from "@/styles/configuracoes.styles";
 
 export default function ConfiguracoesScreen() {
@@ -41,7 +26,7 @@ export default function ConfiguracoesScreen() {
           <View style={styles.headerLine} />
         </View>
 
-        {/* INPUTS */}
+        {/* INPUT USERNAME */}
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
@@ -53,6 +38,7 @@ export default function ConfiguracoesScreen() {
           <Ionicons name="pencil" size={18} color="#555" />
         </View>
 
+        {/* INPUT EMAIL */}
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
@@ -64,13 +50,34 @@ export default function ConfiguracoesScreen() {
           <Ionicons name="pencil" size={18} color="#555" />
         </View>
 
+        {/* INPUT DATA DE NASCIMENTO */}
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
-            placeholder="Date of Birth"
+            placeholder="dd/mm/yyyy"
             value={birth}
-            onChangeText={setBirth}
+            keyboardType="numeric"
+            maxLength={10}
             placeholderTextColor="#999"
+            onChangeText={(text) => {
+              let cleaned = text.replace(/\D/g, "");
+
+              if (cleaned.length > 2) {
+                cleaned = cleaned.replace(
+                  /^(\d{2})(\d)/,
+                  "$1/$2"
+                );
+              }
+
+              if (cleaned.length > 5) {
+                cleaned = cleaned.replace(
+                  /^(\d{2})\/(\d{2})(\d)/,
+                  "$1/$2/$3"
+                );
+              }
+
+              setBirth(cleaned);
+            }}
           />
           <Ionicons name="pencil" size={18} color="#555" />
         </View>
@@ -84,7 +91,7 @@ export default function ConfiguracoesScreen() {
           <TouchableOpacity
             style={[
               styles.toggle,
-              isLightMode && styles.toggleActive
+              isLightMode && styles.toggleActive,
             ]}
             onPress={() => setIsLightMode(!isLightMode)}
             activeOpacity={0.8}
@@ -92,7 +99,8 @@ export default function ConfiguracoesScreen() {
             <View
               style={[
                 styles.toggleCircle,
-                isLightMode && styles.toggleCircleActive
+                isLightMode &&
+                  styles.toggleCircleActive,
               ]}
             />
           </TouchableOpacity>
@@ -112,15 +120,21 @@ export default function ConfiguracoesScreen() {
 
         <View style={styles.divider} />
 
-        {/* BOTÕES */}
+        {/* BOTÃO SAIR */}
         <TouchableOpacity style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Sair da conta</Text>
+          <Text style={styles.logoutText}>
+            Sair da conta
+          </Text>
         </TouchableOpacity>
 
+        {/* BOTÃO EXCLUIR */}
         <TouchableOpacity style={styles.deleteButton}>
-          <Text style={styles.deleteText}>Excluir conta</Text>
+          <Text style={styles.deleteText}>
+            Excluir conta
+          </Text>
         </TouchableOpacity>
 
+        {/* BOTÃO SALVAR */}
         <TouchableOpacity style={styles.saveButton}>
           <Text style={styles.saveText}>Salvar</Text>
         </TouchableOpacity>

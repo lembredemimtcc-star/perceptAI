@@ -36,9 +36,8 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Identifique emoções</Text>
           <Text style={styles.description}>
-            Para descobrir o que a pessoa está sentindo utilize a nossa câmera,
-            assim descubra se ele está sentindo fome, sede, dor, medo, tristeza
-            ou se ele está apertado ou enjoado e sua sensação térmica.
+            Para identificar as emoções de uma pessoa, utilize a nossa câmera
+            e descubra como ela está se sentindo.
           </Text>
 
           <View style={styles.buttonRow}>
@@ -56,7 +55,7 @@ export default function HomeScreen() {
 
           <View style={styles.instructionBox}>
             <Text style={styles.instructionText}>
-              Clique em qualquer dia para visualizar as anotações registradas.
+              Clique em qualquer dia para visualizar as anotações salvas.            
             </Text>
           </View>
 

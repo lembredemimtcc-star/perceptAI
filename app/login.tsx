@@ -2,22 +2,8 @@ import { styles } from "@/styles/login.styles";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
+import {SafeAreaView,ScrollView,Text,TextInput,TouchableOpacity,View,} from "react-native";
+import {useFonts, Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
 import { LoginButton } from "@/components/buttons/LoginButton";
 
 export default function LoginScreen() {
@@ -49,7 +35,7 @@ export default function LoginScreen() {
           <View style={styles.form}>
             <TextInput
               style={styles.input}
-              placeholder="Digite aqui seu Email"
+              placeholder="Digite aqui seu Email ou seu Username"
               placeholderTextColor="#9A9A9A"
             />
 

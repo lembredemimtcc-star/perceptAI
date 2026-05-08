@@ -1,9 +1,4 @@
-import { 
-  Poppins_400Regular, 
-  Poppins_600SemiBold, 
-  Poppins_700Bold, 
-  useFonts 
-} from "@expo-google-fonts/poppins";
+import { Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";

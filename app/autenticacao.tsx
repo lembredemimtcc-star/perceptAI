@@ -1,19 +1,8 @@
 import { styles } from "@/styles/autenticacao.styles";
 import { router } from "expo-router";
 import React from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
-
-import {
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-  useFonts,
-} from "@expo-google-fonts/poppins";
-
+import {SafeAreaView,Text,View,} from "react-native";
+import {Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,useFonts,} from "@expo-google-fonts/poppins";
 import { LoginButton } from "@/components/buttons/LoginButton";
 import { RegisterButton } from "@/components/buttons/RegisterButton";
 

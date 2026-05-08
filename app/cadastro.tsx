@@ -2,22 +2,8 @@ import { styles } from "@/styles/cadastro.styles";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
+import {SafeAreaView,ScrollView,Text,TextInput,TouchableOpacity,View,} from "react-native";
+import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
 import { LoginButton } from "@/components/buttons/LoginButton";
 
 export default function CadastroScreen() {
@@ -29,6 +15,7 @@ export default function CadastroScreen() {
 
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [dataNascimento, setDataNascimento] = useState("");
+  const [username, setUsername] = useState("");
 
   if (!fontsLoaded) return null;
 
@@ -62,12 +49,23 @@ export default function CadastroScreen() {
           </Text>
 
           <View style={styles.form}>
+            {/* EMAIL */}
             <TextInput
               style={styles.input}
               placeholder="Digite aqui seu Email"
               placeholderTextColor="#9A9A9A"
             />
 
+            {/* USERNAME */}
+            <TextInput
+              style={styles.input}
+              placeholder="Digite aqui seu Username"
+              placeholderTextColor="#9A9A9A"
+              value={username}
+              onChangeText={setUsername}
+            />
+
+            {/* DATA DE NASCIMENTO */}
             <TextInput
               style={styles.input}
               placeholder="Data de nascimento (DD/MM/AAAA)"
@@ -80,12 +78,14 @@ export default function CadastroScreen() {
               maxLength={10}
             />
 
+            {/* NOME */}
             <TextInput
               style={styles.input}
               placeholder="Digite aqui seu Nome"
               placeholderTextColor="#9A9A9A"
             />
 
+            {/* SENHA */}
             <View style={styles.passwordContainer}>
               <TextInput
                 style={styles.passwordInput}

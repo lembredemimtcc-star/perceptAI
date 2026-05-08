@@ -1,16 +1,7 @@
 import { styles } from "@/styles/splash.styles";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
-import {
-  Animated,
-  Dimensions,
-  Easing,
-  Image,
-  SafeAreaView,
-  Text,
-  View,
-  DimensionValue,
-} from "react-native";
+import {Animated,Dimensions,Easing,Image,SafeAreaView,Text,View,DimensionValue,} from "react-native";
 
 const { width, height } = Dimensions.get("window");
 

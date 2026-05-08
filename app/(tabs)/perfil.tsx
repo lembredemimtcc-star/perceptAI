@@ -1,20 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
+import {SafeAreaView,ScrollView,Text,TouchableOpacity,View,} from "react-native";
+import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
 import { styles } from "@/styles/perfil.styles";
 
 type ProfileItemProps = {
@@ -81,7 +68,7 @@ export default function PerfilScreen() {
           <ProfileItem label="Email" value="Ana@gmail.com" />
 
           <ProfileItem
-            label="Date of birth"
+            label="Data de Nascimento"
             value="01/01/2001"
           />
         </View>
