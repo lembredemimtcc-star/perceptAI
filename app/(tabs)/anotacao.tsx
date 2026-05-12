@@ -1,22 +1,54 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
-import {FlatList,SafeAreaView,Text,TouchableOpacity,View,} from "react-native";
-import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
+import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { styles } from "@/styles/anotacao.styles";
+import { router, useLocalSearchParams } from "expo-router";
 
 type Nota = {
   id: string;
+  titulo: string;
   texto: string;
+  data: string;
 };
 
 export default function AnotacaoScreen() {
+  const [listaNotas, setListaNotas] = useState<Nota[]>([]);
+
+  const params = useLocalSearchParams();
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
 
-  const [listaNotas, setListaNotas] = useState<Nota[]>([]);
+  // recebe nova anotação
+  useEffect(() => {
+    if (params.novaNota) {
+      const novaNota = JSON.parse(params.novaNota as string);
+      setListaNotas((prev) => [novaNota, ...prev]);
+    }
+  }, [params.novaNota]);
+
+  function deletarNota(id: string) {
+    setListaNotas((prev) =>
+      prev.filter((nota) => nota.id !== id)
+    );
+  }
 
   if (!fontsLoaded) return null;
 
@@ -26,13 +58,18 @@ export default function AnotacaoScreen() {
         <Text style={styles.titleText}>Anotações</Text>
         <View style={styles.headerLine} />
 
-        {/* BOTÕES NOVOS */}
+        {/* BOTÕES */}
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.secondaryButton}>
-            <Text style={styles.secondaryButtonText}>Anotações</Text>
+            <Text style={styles.secondaryButtonText}>
+              Anotações
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.primaryButton}>
+          <TouchableOpacity
+            style={styles.primaryButton}
+            onPress={() => router.push("/anotacao-nova")}
+          >
             <Text style={styles.primaryButtonText}>
               Adicionar Anotação
             </Text>
@@ -42,7 +79,6 @@ export default function AnotacaoScreen() {
         <FlatList
           data={listaNotas}
           keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <View style={styles.notaItem}>
               <Ionicons
@@ -50,7 +86,37 @@ export default function AnotacaoScreen() {
                 size={20}
                 color="#F2A31B"
               />
-              <Text style={styles.notaTexto}>{item.texto}</Text>
+
+              <View style={{ marginLeft: 10, flex: 1 }}>
+                <Text style={styles.notaTitulo}>
+                  {item.titulo}
+                </Text>
+
+                <Text style={styles.notaData}>
+                  {item.data}
+                </Text>
+
+                {/* 🔥 TEXTO BEM RESUMIDO */}
+                <Text
+                  style={styles.notaTexto}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                >
+                  {item.texto}
+                </Text>
+              </View>
+
+              {/* 🗑 DELETE */}
+              <TouchableOpacity
+                onPress={() => deletarNota(item.id)}
+                style={styles.deleteButton}
+              >
+                <Ionicons
+                  name="trash-outline"
+                  size={20}
+                  color="#FF4D4D"
+                />
+              </TouchableOpacity>
             </View>
           )}
           ListEmptyComponent={

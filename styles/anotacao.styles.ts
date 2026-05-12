@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
 
   secondaryButton: {
     flex: 1,
-    backgroundColor: "#E6D3B3",
+    backgroundColor: "#ffeac5",
     paddingVertical: 12,
     borderRadius: 12,
     alignItems: "center",
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
   },
 
   notaTexto: {
-    fontSize: 16,
+    fontSize: 9,
     color: "#444",
     marginLeft: 10,
     fontFamily: "Poppins_600SemiBold",
@@ -87,4 +87,22 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
   },
+
+  notaTitulo: {
+  fontSize: 16,
+  fontFamily: "Poppins_700Bold",
+  color: "#000",
+},
+
+notaData: {
+  fontSize: 12,
+  fontFamily: "Poppins_400Regular",
+  color: "#777",
+  marginBottom: 4,
+},
+deleteButton: {
+  padding: 8,
+  justifyContent: "center",
+  alignItems: "center",
+},
 });
