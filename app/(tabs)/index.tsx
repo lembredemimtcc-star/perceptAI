@@ -1,10 +1,11 @@
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
-import {SafeAreaView,ScrollView,Text,TouchableOpacity,View,} from "react-native";
-import { useFonts, Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold } from "@expo-google-fonts/poppins";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { styles } from "@/styles/home.styles";
+import { Poppins_400Regular, Poppins_600SemiBold, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import React from "react";
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View, } from "react-native";
 
 export default function HomeScreen() {
   const [fontsLoaded] = useFonts({
@@ -43,7 +44,7 @@ export default function HomeScreen() {
           <View style={styles.buttonRow}>
             <PrimaryButton
               title="Descubra aqui"
-              onPress={() => {}}
+              onPress={() => router.push("/camera")}
               width="48%"
             />
             <SecondaryButton title="Acessar histórico" onPress={() => {}} />

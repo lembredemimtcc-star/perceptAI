@@ -3,7 +3,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { Drawer } from "expo-router/drawer";
 import { Text, TouchableOpacity, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
 import { styles } from "@/styles/layout.styles";
 
 export default function Layout() {
@@ -22,6 +29,7 @@ export default function Layout() {
         screenOptions={({ navigation }) => ({
           headerShown: true,
           headerTransparent: false,
+
           headerStyle: {
             backgroundColor: "#fff",
             elevation: 0,
@@ -43,7 +51,6 @@ export default function Layout() {
             backgroundColor: "transparent",
           },
 
-          // 🔥 AQUI ESTÁ O EFEITO ESCURO
           overlayColor: "rgba(0,0,0,0.4)",
 
           drawerLabelStyle: {
@@ -66,7 +73,11 @@ export default function Layout() {
               onPress={() => navigation.openDrawer()}
               style={styles.menuButton}
             >
-              <Ionicons name="menu-outline" size={35} color="black" />
+              <Ionicons
+                name="menu-outline"
+                size={35}
+                color="black"
+              />
             </TouchableOpacity>
           ),
         })}
@@ -76,6 +87,14 @@ export default function Layout() {
           options={{
             drawerLabel: "Início",
             headerTitle: "Início",
+          }}
+        />
+
+        <Drawer.Screen
+          name="camera"
+          options={{
+            // ESCONDE HEADER INTEIRO
+            headerShown: false,
           }}
         />
 
