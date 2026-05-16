@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import Header from "@/components/header/Header";
+
 import {
   SafeAreaView,
   ScrollView,
@@ -15,8 +17,6 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 
-import { router } from "expo-router";
-
 import {
   CameraView,
   CameraType,
@@ -28,7 +28,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "@/styles/camera.styles";
 
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 
 export default function CameraScreen() {
   const [facing, setFacing] =
@@ -74,22 +73,7 @@ export default function CameraScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* HEADER */}
-        <View style={styles.headerRow}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.titleText}>
-              Câmera
-            </Text>
-
-            <View style={styles.headerLine} />
-          </View>
-
-          <View style={{ width: 120 }}>
-            <SecondaryButton
-              title="Voltar"
-              onPress={() => router.back()}
-            />
-          </View>
-        </View>
+        <Header title="Câmera" />
 
         {/* BOTÃO CONFIGURAR */}
         <PrimaryButton

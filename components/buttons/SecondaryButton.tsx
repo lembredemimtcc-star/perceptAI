@@ -11,7 +11,7 @@ export function SecondaryButton({ title, onPress }: { title: string, onPress: ()
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#F7E3C1',
+    backgroundColor: '#ffa60d46',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 15,

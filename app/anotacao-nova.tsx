@@ -1,3 +1,5 @@
+// anotacao-nova.tsx
+
 import React, { useState } from "react";
 
 import {
@@ -43,7 +45,10 @@ export default function AnotacaoNova() {
 
   function onChangeDate(event: any, selectedDate?: Date) {
     setShowPicker(Platform.OS === "ios");
-    if (selectedDate) setDate(selectedDate);
+
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
   }
 
   function salvarNota() {
@@ -64,9 +69,7 @@ export default function AnotacaoNova() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* HEADER */}
         <View style={styles.headerRow}>
           <View style={styles.headerContainer}>
@@ -129,6 +132,7 @@ export default function AnotacaoNova() {
           value={texto}
           onChangeText={setTexto}
           multiline
+          placeholder="Digite sua anotação..."
         />
 
         {/* SALVAR */}

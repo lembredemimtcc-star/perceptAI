@@ -1,7 +1,25 @@
 import React, { useState } from "react";
-import {SafeAreaView,ScrollView,Text,View,TouchableOpacity,TextInput,} from "react-native";
+
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
-import {useFonts,Poppins_400Regular,Poppins_600SemiBold,Poppins_700Bold,} from "@expo-google-fonts/poppins";
+
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+
+import { router } from "expo-router";
+
 import { styles } from "@/styles/configuracoes.styles";
 
 export default function ConfiguracoesScreen() {
@@ -11,22 +29,35 @@ export default function ConfiguracoesScreen() {
     Poppins_700Bold,
   });
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] =
+    useState("");
+
   const [email, setEmail] = useState("");
+
   const [birth, setBirth] = useState("");
-  const [isLightMode, setIsLightMode] = useState(true);
+
+  const [isLightMode, setIsLightMode] =
+    useState(true);
 
   if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        contentContainerStyle={
+          styles.scrollContent
+        }
+      >
         <View style={styles.headerContainer}>
-          <Text style={styles.titleText}>Configurações</Text>
+          <Text style={styles.titleText}>
+            Configurações
+          </Text>
+
           <View style={styles.headerLine} />
         </View>
 
         {/* INPUT USERNAME */}
+
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
@@ -35,10 +66,16 @@ export default function ConfiguracoesScreen() {
             onChangeText={setUsername}
             placeholderTextColor="#999"
           />
-          <Ionicons name="pencil" size={18} color="#555" />
+
+          <Ionicons
+            name="pencil"
+            size={18}
+            color="#555"
+          />
         </View>
 
         {/* INPUT EMAIL */}
+
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
@@ -47,10 +84,16 @@ export default function ConfiguracoesScreen() {
             onChangeText={setEmail}
             placeholderTextColor="#999"
           />
-          <Ionicons name="pencil" size={18} color="#555" />
+
+          <Ionicons
+            name="pencil"
+            size={18}
+            color="#555"
+          />
         </View>
 
         {/* INPUT DATA DE NASCIMENTO */}
+
         <View style={styles.inputBox}>
           <TextInput
             style={styles.input}
@@ -60,7 +103,10 @@ export default function ConfiguracoesScreen() {
             maxLength={10}
             placeholderTextColor="#999"
             onChangeText={(text) => {
-              let cleaned = text.replace(/\D/g, "");
+              let cleaned = text.replace(
+                /\D/g,
+                ""
+              );
 
               if (cleaned.length > 2) {
                 cleaned = cleaned.replace(
@@ -79,41 +125,65 @@ export default function ConfiguracoesScreen() {
               setBirth(cleaned);
             }}
           />
-          <Ionicons name="pencil" size={18} color="#555" />
+
+          <Ionicons
+            name="pencil"
+            size={18}
+            color="#555"
+          />
         </View>
 
         <View style={styles.divider} />
 
         {/* LINHA: MODO + FONTE */}
+
         <View style={styles.row}>
-          <Text style={styles.label}>Modo claro</Text>
+          <Text style={styles.label}>
+            Modo claro
+          </Text>
 
           <TouchableOpacity
             style={[
               styles.toggle,
-              isLightMode && styles.toggleActive,
+              isLightMode &&
+                styles.toggleActive,
             ]}
-            onPress={() => setIsLightMode(!isLightMode)}
+            onPress={() =>
+              setIsLightMode(
+                !isLightMode
+              )
+            }
             activeOpacity={0.8}
           >
             <View
               style={[
                 styles.toggleCircle,
                 isLightMode &&
-                  styles.toggleCircleActive,
+                  styles
+                    .toggleCircleActive,
               ]}
             />
           </TouchableOpacity>
 
-          <Text style={styles.label}>Fonte</Text>
+          <Text style={styles.label}>
+            Fonte
+          </Text>
 
           <View style={styles.fontControls}>
-            <TouchableOpacity style={styles.fontButton}>
-              <Text style={styles.fontText}>A+</Text>
+            <TouchableOpacity
+              style={styles.fontButton}
+            >
+              <Text style={styles.fontText}>
+                A+
+              </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.fontButton}>
-              <Text style={styles.fontText}>A-</Text>
+            <TouchableOpacity
+              style={styles.fontButton}
+            >
+              <Text style={styles.fontText}>
+                A-
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -121,22 +191,36 @@ export default function ConfiguracoesScreen() {
         <View style={styles.divider} />
 
         {/* BOTÃO SAIR */}
-        <TouchableOpacity style={styles.logoutButton}>
+
+        <TouchableOpacity
+          style={styles.logoutButton}
+          onPress={() =>
+            router.push("/autenticacao")
+          }
+        >
           <Text style={styles.logoutText}>
             Sair da conta
           </Text>
         </TouchableOpacity>
 
         {/* BOTÃO EXCLUIR */}
-        <TouchableOpacity style={styles.deleteButton}>
+
+        <TouchableOpacity
+          style={styles.deleteButton}
+        >
           <Text style={styles.deleteText}>
             Excluir conta
           </Text>
         </TouchableOpacity>
 
         {/* BOTÃO SALVAR */}
-        <TouchableOpacity style={styles.saveButton}>
-          <Text style={styles.saveText}>Salvar</Text>
+
+        <TouchableOpacity
+          style={styles.saveButton}
+        >
+          <Text style={styles.saveText}>
+            Salvar
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

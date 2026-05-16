@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
 
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 25,
+    
     paddingBottom: 30,
   },
 
@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginTop: 44,
+    // marginTop: 0,
     marginBottom: 25,
   },
 
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     width: 140,
     height: 1.5,
     backgroundColor: "#000",
-    marginTop: 2,
+    // marginTop: 2,
   },
 
   /* BOTÃO VOLTAR */
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
     color: "#000",
-    marginTop: 4,
+    // marginTop: 4,
   },
 
   /* BOTÃO CONFIG */

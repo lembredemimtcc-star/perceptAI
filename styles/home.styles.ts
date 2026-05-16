@@ -8,9 +8,8 @@ export const styles = StyleSheet.create({
 
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 0,
     marginTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 40,
   },
 
   headerContainer: {
@@ -20,7 +19,6 @@ export const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 26,
     fontFamily: "Poppins_700Bold",
-    color: "#000",
   },
 
   headerLine: {
@@ -35,7 +33,6 @@ export const styles = StyleSheet.create({
   },
 
   sectionNoMargin: {
-    marginBottom: 0,
     alignItems: "center",
   },
 
@@ -46,58 +43,110 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  description: {
-    fontSize: 13,
-    textAlign: "center",
-    fontFamily: "Poppins_400Regular",
-    color: "#333",
-    lineHeight: 18,
-    marginBottom: 15,
-  },
-
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
   },
 
-  instructionBox: {
-    backgroundColor: "#FDEBD0",
-    padding: 12,
-    borderRadius: 15,
+  instructionBoxCustom: {
     width: "100%",
+    backgroundColor: "#ffa60d46",
+    borderRadius: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 18,
     marginBottom: 15,
   },
 
-  instructionText: {
+  instructionTextCustom: {
+    fontSize: 14,
     textAlign: "center",
-    fontSize: 13,
-    fontFamily: "Poppins_400Regular", // corrigido
+    fontFamily: "Poppins_400Regular",
+    color: "#000",
   },
+
+  /* CALENDÁRIO */
 
   calendarHeader: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 18,
+    gap: 12,
+    zIndex: 999,
+  },
+
+  dropdownWrapper: {
+    flex: 1,
+    position: "relative",
+  },
+
+  customDropdown: {
+    backgroundColor: "#EFEFEF",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+
+    borderRadius: 12,
+
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 15,
+
+    borderWidth: 1,
+    borderColor: "#D8D8D8",
   },
 
-  monthSelector: {
-    backgroundColor: "#F2A31B",
-    paddingVertical: 6,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-  },
-
-  monthText: {
-    fontSize: 16,
+  dropdownText: {
     fontFamily: "Poppins_600SemiBold",
+    color: "#555",
+    fontSize: 14,
   },
 
-  arrowButton: {
-    backgroundColor: "#E0E0E0",
-    padding: 4,
-    borderRadius: 8,
-    marginLeft: 10,
+  dropdownArrow: {
+    fontFamily: "Poppins_700Bold",
+    color: "#777",
+    fontSize: 12,
+  },
+
+  dropdownMenu: {
+    position: "absolute",
+    top: 52,
+
+    width: "100%",
+    maxHeight: 180,
+
+    backgroundColor: "#FFF",
+
+    borderRadius: 14,
+
+    borderWidth: 1,
+    borderColor: "#E5E5E5",
+
+    paddingVertical: 6,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+
+    shadowOpacity: 0.08,
+    shadowRadius: 5,
+
+    elevation: 5,
+
+    zIndex: 9999,
+  },
+
+  dropdownItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+
+  dropdownItemText: {
+    fontFamily: "Poppins_400Regular",
+    color: "#444",
+    fontSize: 14,
   },
 
   weekDaysContainer: {
@@ -110,25 +159,25 @@ export const styles = StyleSheet.create({
   weekDayText: {
     width: "13%",
     textAlign: "center",
-    fontSize: 12,
-    fontFamily: "Poppins_600SemiBold", // corrigido
+    fontFamily: "Poppins_600SemiBold",
   },
 
   calendarGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
     width: "100%",
-    marginBottom: 0,
   },
 
   dayBox: {
-    width: "13%",
+    width: "12.3%",
     aspectRatio: 1,
+
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
-    marginBottom: 8,
+
+    borderRadius: 10,
+
+    margin: 3,
   },
 
   dayBoxEmpty: {
@@ -143,18 +192,16 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F2A31B",
   },
 
+  dayBoxSelected: {
+    borderWidth: 1.5,
+    borderColor: "#000",
+  },
+
   dayLabel: {
-    fontSize: 13,
     fontFamily: "Poppins_600SemiBold",
   },
 
-  bottomButtonContainer: {
-    marginTop: -25,
-    marginBottom: 20,
-  },
-  calendar: {
-    width: "100%",
-    borderRadius: 16,
-    paddingBottom: 10,
+  dayLabelActive: {
+    color: "#FFF",
   },
 });
