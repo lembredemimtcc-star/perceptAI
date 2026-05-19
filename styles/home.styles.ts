@@ -65,89 +65,93 @@ export const styles = StyleSheet.create({
     color: "#000",
   },
 
-  /* CALENDÁRIO */
+  /* FILTROS */
 
-  calendarHeader: {
+  filtersContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    marginBottom: 18,
-    gap: 12,
-    zIndex: 999,
+    marginBottom: 20,
   },
 
-  dropdownWrapper: {
-    flex: 1,
-    position: "relative",
-  },
-
-  customDropdown: {
-    backgroundColor: "#EFEFEF",
-    paddingVertical: 10,
+  customSelect: {
+    width: "48%",
+    backgroundColor: "#FFF7E8",
+    borderWidth: 1.5,
+    borderColor: "#F2A31B",
+    borderRadius: 18,
+    paddingVertical: 14,
     paddingHorizontal: 16,
-
-    borderRadius: 12,
-
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
 
-    borderWidth: 1,
-    borderColor: "#D8D8D8",
-  },
-
-  dropdownText: {
-    fontFamily: "Poppins_600SemiBold",
-    color: "#555",
-    fontSize: 14,
-  },
-
-  dropdownArrow: {
-    fontFamily: "Poppins_700Bold",
-    color: "#777",
-    fontSize: 12,
-  },
-
-  dropdownMenu: {
-    position: "absolute",
-    top: 52,
-
-    width: "100%",
-    maxHeight: 180,
-
-    backgroundColor: "#FFF",
-
-    borderRadius: 14,
-
-    borderWidth: 1,
-    borderColor: "#E5E5E5",
-
-    paddingVertical: 6,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
-
     shadowOpacity: 0.08,
-    shadowRadius: 5,
-
-    elevation: 5,
-
-    zIndex: 9999,
+    shadowRadius: 4,
+    elevation: 3,
   },
 
-  dropdownItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-
-  dropdownItemText: {
-    fontFamily: "Poppins_400Regular",
-    color: "#444",
+  customSelectText: {
+    fontFamily: "Poppins_600SemiBold",
     fontSize: 14,
+    color: "#000",
   },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.35)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+
+  modalContent: {
+    width: "100%",
+    backgroundColor: "#FFF",
+    borderRadius: 24,
+    padding: 20,
+    maxHeight: "70%",
+  },
+
+  modalScroll: {
+    marginTop: 5,
+  },
+
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: "Poppins_700Bold",
+    color: "#C68911",
+    marginBottom: 18,
+    textAlign: "center",
+  },
+
+  modalOption: {
+    backgroundColor: "#FFF7E8",
+    borderRadius: 14,
+    paddingVertical: 14,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+
+  modalOptionSelected: {
+    backgroundColor: "#F2A31B",
+  },
+
+  modalOptionText: {
+    fontFamily: "Poppins_600SemiBold",
+    color: "#000",
+  },
+
+  modalOptionTextSelected: {
+    color: "#FFF",
+  },
+
+  /* CALENDÁRIO */
 
   weekDaysContainer: {
     flexDirection: "row",
@@ -171,12 +175,9 @@ export const styles = StyleSheet.create({
   dayBox: {
     width: "12.3%",
     aspectRatio: 1,
-
     justifyContent: "center",
     alignItems: "center",
-
     borderRadius: 10,
-
     margin: 3,
   },
 

@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 
 import {
+  Modal,
   SafeAreaView,
   ScrollView,
   Text,
@@ -30,17 +31,16 @@ export default function HomeScreen() {
 
   const today = new Date();
 
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+
+  const [monthModalVisible, setMonthModalVisible] = useState(false);
+  const [yearModalVisible, setYearModalVisible] = useState(false);
+
   const [selectedDay, setSelectedDay] = useState<number | null>(
     today.getDate()
   );
 
-  const [monthVisible, setMonthVisible] = useState(false);
-  const [yearVisible, setYearVisible] = useState(false);
-
-  if (!fontsLoaded) return null;
-
-  // 🔥 TODOS OS MESES
   const months = [
     "Janeiro",
     "Fevereiro",
@@ -56,15 +56,13 @@ export default function HomeScreen() {
     "Dezembro",
   ];
 
-  // 🔥 ANOS
   const years = [2023, 2024, 2025, 2026];
 
-  const calendarDays = useMemo(() => {
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+  if (!fontsLoaded) return null;
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
+  const calendarDays = useMemo(() => {
+    const firstDay = new Date(selectedYear, selectedMonth, 1);
+    const lastDay = new Date(selectedYear, selectedMonth + 1, 0);
 
     const totalDays = lastDay.getDate();
 
@@ -82,17 +80,7 @@ export default function HomeScreen() {
     }
 
     return daysArray;
-  }, [currentDate]);
-
-  function handleMonthChange(month: number) {
-    setCurrentDate(new Date(currentDate.getFullYear(), month, 1));
-    setMonthVisible(false);
-  }
-
-  function handleYearChange(year: number) {
-    setCurrentDate(new Date(year, currentDate.getMonth(), 1));
-    setYearVisible(false);
-  }
+  }, [selectedMonth, selectedYear]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -132,78 +120,26 @@ export default function HomeScreen() {
         <View style={styles.sectionNoMargin}>
           <Text style={styles.sectionTitle}>Calendário</Text>
 
-          <View style={styles.calendarHeader}>
-            {/* MÊS */}
-            <View style={styles.dropdownWrapper}>
-              <TouchableOpacity
-                style={styles.customDropdown}
-                onPress={() => {
-                  setMonthVisible(!monthVisible);
-                  setYearVisible(false);
-                }}
-              >
-                <Text style={styles.dropdownText}>
-                  {months[currentDate.getMonth()]}
-                </Text>
+          <View style={styles.filtersContainer}>
+            <TouchableOpacity
+              style={styles.customSelect}
+              onPress={() => setMonthModalVisible(true)}
+            >
+              <Text style={styles.customSelectText}>
+                {months[selectedMonth]}
+              </Text>
 
-                <Text style={styles.dropdownArrow}>▼</Text>
-              </TouchableOpacity>
+              <Text>▼</Text>
+            </TouchableOpacity>
 
-              {monthVisible && (
-                <View style={styles.dropdownMenu}>
-                  <ScrollView
-                    nestedScrollEnabled
-                    showsVerticalScrollIndicator={true}
-                  >
-                    {months.map((month, index) => (
-                      <TouchableOpacity
-                        key={month}
-                        style={styles.dropdownItem}
-                        onPress={() => handleMonthChange(index)}
-                      >
-                        <Text style={styles.dropdownItemText}>{month}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
-              )}
-            </View>
+            <TouchableOpacity
+              style={styles.customSelect}
+              onPress={() => setYearModalVisible(true)}
+            >
+              <Text style={styles.customSelectText}>{selectedYear}</Text>
 
-            {/* ANO */}
-            <View style={styles.dropdownWrapper}>
-              <TouchableOpacity
-                style={styles.customDropdown}
-                onPress={() => {
-                  setYearVisible(!yearVisible);
-                  setMonthVisible(false);
-                }}
-              >
-                <Text style={styles.dropdownText}>
-                  {currentDate.getFullYear()}
-                </Text>
-
-                <Text style={styles.dropdownArrow}>▼</Text>
-              </TouchableOpacity>
-
-              {yearVisible && (
-                <View style={styles.dropdownMenu}>
-                  <ScrollView
-                    nestedScrollEnabled
-                    showsVerticalScrollIndicator={true}
-                  >
-                    {years.map((year) => (
-                      <TouchableOpacity
-                        key={year}
-                        style={styles.dropdownItem}
-                        onPress={() => handleYearChange(year)}
-                      >
-                        <Text style={styles.dropdownItemText}>{year}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
-              )}
-            </View>
+              <Text>▼</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.weekDaysContainer}>
@@ -218,8 +154,8 @@ export default function HomeScreen() {
             {calendarDays.map((day, index) => {
               const isToday =
                 day === today.getDate() &&
-                currentDate.getMonth() === today.getMonth() &&
-                currentDate.getFullYear() === today.getFullYear();
+                selectedMonth === today.getMonth() &&
+                selectedYear === today.getFullYear();
 
               const isSelected = selectedDay === day;
 
@@ -255,6 +191,98 @@ export default function HomeScreen() {
           />
         </View>
       </ScrollView>
+
+      <Modal
+        visible={monthModalVisible}
+        transparent
+        animationType="fade"
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.modalOverlay}
+          onPress={() => setMonthModalVisible(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Selecione o mês</Text>
+
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.modalScroll}
+            >
+              {months.map((month, index) => (
+                <TouchableOpacity
+                  key={month}
+                  style={[
+                    styles.modalOption,
+                    selectedMonth === index &&
+                      styles.modalOptionSelected,
+                  ]}
+                  onPress={() => {
+                    setSelectedMonth(index);
+                    setMonthModalVisible(false);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.modalOptionText,
+                      selectedMonth === index &&
+                        styles.modalOptionTextSelected,
+                    ]}
+                  >
+                    {month}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      <Modal
+        visible={yearModalVisible}
+        transparent
+        animationType="fade"
+      >
+        <TouchableOpacity
+          activeOpacity={1}
+          style={styles.modalOverlay}
+          onPress={() => setYearModalVisible(false)}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Selecione o ano</Text>
+
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles.modalScroll}
+            >
+              {years.map((year) => (
+                <TouchableOpacity
+                  key={year}
+                  style={[
+                    styles.modalOption,
+                    selectedYear === year &&
+                      styles.modalOptionSelected,
+                  ]}
+                  onPress={() => {
+                    setSelectedYear(year);
+                    setYearModalVisible(false);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.modalOptionText,
+                      selectedYear === year &&
+                        styles.modalOptionTextSelected,
+                    ]}
+                  >
+                    {year}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }
