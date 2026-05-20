@@ -69,19 +69,21 @@ export const styles = StyleSheet.create({
 
   filtersContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    gap: 10,
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 16,
   },
 
   customSelect: {
-    width: "48%",
-    backgroundColor: "#FFF7E8",
-    borderWidth: 1.5,
-    borderColor: "#F2A31B",
-    borderRadius: 18,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    width: "40%",
+    backgroundColor: "#f5ce85",
+    borderWidth: 1,
+    borderColor: "#f5ce85a6",
+    borderRadius: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -89,11 +91,11 @@ export const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 1,
     },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: 0.06,
+    shadowRadius: 3,
+    elevation: 2,
   },
 
   customSelectText: {
@@ -185,11 +187,18 @@ export const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
 
-  dayBoxInactive: {
-    backgroundColor: "#D9D9D9",
+  // PASSADOS
+  dayBoxPast: {
+    backgroundColor: "#F5CE85",
   },
 
-  dayBoxActive: {
+  // FUTUROS
+  dayBoxFuture: {
+    backgroundColor: "#EAEAEA",
+  },
+
+  // HOJE
+  dayBoxToday: {
     backgroundColor: "#F2A31B",
   },
 
@@ -200,9 +209,16 @@ export const styles = StyleSheet.create({
 
   dayLabel: {
     fontFamily: "Poppins_600SemiBold",
+    color: "#000",
   },
 
-  dayLabelActive: {
+  // TEXTO DOS FUTUROS
+  dayLabelPast: {
+    color: "#9B9B9B",
+  },
+
+  // TEXTO DO HOJE
+  dayLabelToday: {
     color: "#FFF",
   },
 });

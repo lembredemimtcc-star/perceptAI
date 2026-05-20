@@ -159,6 +159,26 @@ export default function HomeScreen() {
 
               const isSelected = selectedDay === day;
 
+              // DIAS PASSADOS
+              const isPast =
+                day !== null &&
+                new Date(selectedYear, selectedMonth, day) <
+                  new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate()
+                  );
+
+              // DIAS FUTUROS
+              const isFuture =
+                day !== null &&
+                new Date(selectedYear, selectedMonth, day) >
+                  new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate()
+                  );
+
               return (
                 <TouchableOpacity
                   key={index}
@@ -166,16 +186,31 @@ export default function HomeScreen() {
                   onPress={() => setSelectedDay(day)}
                   style={[
                     styles.dayBox,
+
                     day === null && styles.dayBoxEmpty,
-                    day !== null && styles.dayBoxInactive,
-                    isToday && styles.dayBoxActive,
+
+                    // PASSADOS = LARANJA
+                    isPast && styles.dayBoxPast,
+
+                    // FUTUROS = CINZA
+                    isFuture && styles.dayBoxFuture,
+
+                    // HOJE
+                    isToday && styles.dayBoxToday,
+
+                    // SELECIONADO
                     isSelected && styles.dayBoxSelected,
                   ]}
                 >
                   <Text
                     style={[
                       styles.dayLabel,
-                      isToday && styles.dayLabelActive,
+
+                      // texto cinza nos futuros
+                      isFuture && styles.dayLabelPast,
+
+                      // texto branco no hoje
+                      isToday && styles.dayLabelToday,
                     ]}
                   >
                     {day || ""}
