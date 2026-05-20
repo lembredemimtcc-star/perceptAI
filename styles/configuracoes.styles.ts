@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
   },
 
   /* INPUTS */
+
   inputBox: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -48,6 +49,7 @@ export const styles = StyleSheet.create({
   },
 
   /* DIVISOR */
+
   divider: {
     height: 1,
     backgroundColor: "#000",
@@ -55,7 +57,8 @@ export const styles = StyleSheet.create({
     opacity: 0.2,
   },
 
-  /* LINHA PRINCIPAL (AJUSTADA) */
+  /* LINHA PRINCIPAL */
+
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -71,6 +74,7 @@ export const styles = StyleSheet.create({
   },
 
   /* TOGGLE */
+
   toggle: {
     width: 50,
     height: 26,
@@ -97,6 +101,7 @@ export const styles = StyleSheet.create({
   },
 
   /* FONTE */
+
   fontControls: {
     flexDirection: "row",
     alignItems: "center",
@@ -118,6 +123,7 @@ export const styles = StyleSheet.create({
   },
 
   /* BOTÕES */
+
   logoutButton: {
     backgroundColor: "#E0E0E0",
     height: 50,

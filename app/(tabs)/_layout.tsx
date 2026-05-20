@@ -23,40 +23,28 @@ export default function Layout() {
   if (!fontsLoaded) return null;
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.container}>
       <Drawer
         drawerContent={(props) => <CustomDrawer {...props} />}
         screenOptions={({ navigation }) => ({
           headerShown: true,
           headerTransparent: false,
 
-          headerStyle: {
-            backgroundColor: "#fff",
-            elevation: 0,
-            shadowOpacity: 0,
-          },
+          headerStyle: styles.headerStyle,
 
           headerTitleAlign: "left",
 
-          headerTitleContainerStyle: {
-            marginLeft: -10,
-          },
+          headerTitleContainerStyle:
+            styles.headerTitleContainerStyle,
 
-          drawerStyle: {
-            backgroundColor: "transparent",
-            width: "85%",
-          },
+          drawerStyle: styles.drawerStyle,
 
-          sceneContainerStyle: {
-            backgroundColor: "transparent",
-          },
+          sceneContainerStyle:
+            styles.sceneContainerStyle,
 
           overlayColor: "rgba(0,0,0,0.4)",
 
-          drawerLabelStyle: {
-            fontFamily: "Poppins_600SemiBold",
-            fontSize: 15,
-          },
+          drawerLabelStyle: styles.drawerLabelStyle,
 
           drawerActiveTintColor: "#F2A31B",
           drawerInactiveTintColor: "#333",
@@ -93,7 +81,6 @@ export default function Layout() {
         <Drawer.Screen
           name="camera"
           options={{
-            // ESCONDE HEADER INTEIRO
             headerShown: false,
           }}
         />

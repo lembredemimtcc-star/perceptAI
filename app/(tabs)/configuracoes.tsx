@@ -29,8 +29,7 @@ export default function ConfiguracoesScreen() {
     Poppins_700Bold,
   });
 
-  const [username, setUsername] =
-    useState("");
+  const [username, setUsername] = useState("");
 
   const [email, setEmail] = useState("");
 

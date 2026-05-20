@@ -1,5 +1,7 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
+import { CalendarModal } from "@/components/modals/CalendarModal";
+
 import { styles } from "@/styles/home.styles";
 
 import {
@@ -14,7 +16,6 @@ import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 
 import {
-  Modal,
   SafeAreaView,
   ScrollView,
   Text,
@@ -159,7 +160,6 @@ export default function HomeScreen() {
 
               const isSelected = selectedDay === day;
 
-              // DIAS PASSADOS
               const isPast =
                 day !== null &&
                 new Date(selectedYear, selectedMonth, day) <
@@ -169,7 +169,6 @@ export default function HomeScreen() {
                     today.getDate()
                   );
 
-              // DIAS FUTUROS
               const isFuture =
                 day !== null &&
                 new Date(selectedYear, selectedMonth, day) >
@@ -186,30 +185,17 @@ export default function HomeScreen() {
                   onPress={() => setSelectedDay(day)}
                   style={[
                     styles.dayBox,
-
                     day === null && styles.dayBoxEmpty,
-
-                    // PASSADOS = LARANJA
                     isPast && styles.dayBoxPast,
-
-                    // FUTUROS = CINZA
                     isFuture && styles.dayBoxFuture,
-
-                    // HOJE
                     isToday && styles.dayBoxToday,
-
-                    // SELECIONADO
                     isSelected && styles.dayBoxSelected,
                   ]}
                 >
                   <Text
                     style={[
                       styles.dayLabel,
-
-                      // texto cinza nos futuros
                       isFuture && styles.dayLabelPast,
-
-                      // texto branco no hoje
                       isToday && styles.dayLabelToday,
                     ]}
                   >
@@ -227,97 +213,28 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      <Modal
+      <CalendarModal
         visible={monthModalVisible}
-        transparent
-        animationType="fade"
-      >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={styles.modalOverlay}
-          onPress={() => setMonthModalVisible(false)}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Selecione o mês</Text>
+        title="Selecione o mês"
+        options={months}
+        selectedValue={months[selectedMonth]}
+        onClose={() => setMonthModalVisible(false)}
+        onSelect={(value) => {
+          const monthIndex = months.indexOf(value);
+          setSelectedMonth(monthIndex);
+        }}
+      />
 
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              style={styles.modalScroll}
-            >
-              {months.map((month, index) => (
-                <TouchableOpacity
-                  key={month}
-                  style={[
-                    styles.modalOption,
-                    selectedMonth === index &&
-                      styles.modalOptionSelected,
-                  ]}
-                  onPress={() => {
-                    setSelectedMonth(index);
-                    setMonthModalVisible(false);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.modalOptionText,
-                      selectedMonth === index &&
-                        styles.modalOptionTextSelected,
-                    ]}
-                  >
-                    {month}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        </TouchableOpacity>
-      </Modal>
-
-      <Modal
+      <CalendarModal
         visible={yearModalVisible}
-        transparent
-        animationType="fade"
-      >
-        <TouchableOpacity
-          activeOpacity={1}
-          style={styles.modalOverlay}
-          onPress={() => setYearModalVisible(false)}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Selecione o ano</Text>
-
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              style={styles.modalScroll}
-            >
-              {years.map((year) => (
-                <TouchableOpacity
-                  key={year}
-                  style={[
-                    styles.modalOption,
-                    selectedYear === year &&
-                      styles.modalOptionSelected,
-                  ]}
-                  onPress={() => {
-                    setSelectedYear(year);
-                    setYearModalVisible(false);
-                  }}
-                >
-                  <Text
-                    style={[
-                      styles.modalOptionText,
-                      selectedYear === year &&
-                        styles.modalOptionTextSelected,
-                    ]}
-                  >
-                    {year}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        title="Selecione o ano"
+        options={years}
+        selectedValue={selectedYear}
+        onClose={() => setYearModalVisible(false)}
+        onSelect={(value) => {
+          setSelectedYear(value);
+        }}
+      />
     </SafeAreaView>
   );
 }
