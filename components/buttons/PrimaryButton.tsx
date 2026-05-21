@@ -1,5 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, DimensionValue } from 'react-native';
+import { TouchableOpacity, Text, DimensionValue } from 'react-native';
+
+import { styles } from '../style/primaryButton.styles';
 
 interface Props {
   title: string;
@@ -18,20 +20,3 @@ export function PrimaryButton({ title, onPress, width = '100%' }: Props) {
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#F2A31B',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: '#333',
-    fontSize: 14,
-    fontFamily: 'Poppins_700Bold', // ✅ corrigido
-    fontWeight: 'bold',
-  },
-});

@@ -27,7 +27,6 @@ type Nota = {
 
 export default function AnotacaoScreen() {
   const [listaNotas, setListaNotas] = useState<Nota[]>([]);
-
   const params = useLocalSearchParams();
 
   const [fontsLoaded] = useFonts({
@@ -36,7 +35,6 @@ export default function AnotacaoScreen() {
     Poppins_700Bold,
   });
 
-  // recebe nova anotação
   useEffect(() => {
     if (params.novaNota) {
       const novaNota = JSON.parse(params.novaNota as string);
@@ -80,43 +78,47 @@ export default function AnotacaoScreen() {
           data={listaNotas}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.notaItem}>
-              <Ionicons
-                name="document-text-outline"
-                size={20}
-                color="#F2A31B"
-              />
+            <View style={styles.card}>
 
-              <View style={{ marginLeft: 10, flex: 1 }}>
-                <Text style={styles.notaTitulo}>
+              {/* HEADER */}
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardTitle}>
                   {item.titulo}
                 </Text>
 
-                <Text style={styles.notaData}>
-                  {item.data}
+                <View style={styles.actions}>
+                  <TouchableOpacity style={styles.continueButton}>
+                    <Text style={styles.continueText}>
+                      Continuar
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => deletarNota(item.id)}
+                    style={styles.deleteButton}
+                  >
+                    <Ionicons
+                      name="trash-outline"
+                      size={18}
+                      color="#000"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* DESCRIÇÃO */}
+              <View style={styles.descriptionBox}>
+                <Text style={styles.descriptionTitle}>
+                  Descrição:
                 </Text>
 
-                {/* 🔥 TEXTO BEM RESUMIDO */}
                 <Text
-                  style={styles.notaTexto}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
+                  style={styles.descriptionText}
+                  numberOfLines={2}
                 >
                   {item.texto}
                 </Text>
               </View>
-
-              {/* 🗑 DELETE */}
-              <TouchableOpacity
-                onPress={() => deletarNota(item.id)}
-                style={styles.deleteButton}
-              >
-                <Ionicons
-                  name="trash-outline"
-                  size={20}
-                  color="#FF4D4D"
-                />
-              </TouchableOpacity>
             </View>
           )}
           ListEmptyComponent={

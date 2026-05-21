@@ -1,6 +1,7 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { CalendarModal } from "@/components/modals/CalendarModal";
+import { DiadoCalendario } from "@/components/modals/DiadoCalendario";
 
 import { styles } from "@/styles/home.styles";
 
@@ -42,6 +43,9 @@ export default function HomeScreen() {
     today.getDate()
   );
 
+  // ✅ estado do modal do dia
+  const [dayModalVisible, setDayModalVisible] = useState(false);
+
   const months = [
     "Janeiro",
     "Fevereiro",
@@ -70,7 +74,7 @@ export default function HomeScreen() {
     let startWeekDay = firstDay.getDay();
     startWeekDay = startWeekDay === 0 ? 6 : startWeekDay - 1;
 
-    const daysArray = [];
+    const daysArray: (number | null)[] = [];
 
     for (let i = 0; i < startWeekDay; i++) {
       daysArray.push(null);
@@ -129,7 +133,6 @@ export default function HomeScreen() {
               <Text style={styles.customSelectText}>
                 {months[selectedMonth]}
               </Text>
-
               <Text>▼</Text>
             </TouchableOpacity>
 
@@ -138,7 +141,6 @@ export default function HomeScreen() {
               onPress={() => setYearModalVisible(true)}
             >
               <Text style={styles.customSelectText}>{selectedYear}</Text>
-
               <Text>▼</Text>
             </TouchableOpacity>
           </View>
@@ -160,47 +162,24 @@ export default function HomeScreen() {
 
               const isSelected = selectedDay === day;
 
-              const isPast =
-                day !== null &&
-                new Date(selectedYear, selectedMonth, day) <
-                  new Date(
-                    today.getFullYear(),
-                    today.getMonth(),
-                    today.getDate()
-                  );
-
-              const isFuture =
-                day !== null &&
-                new Date(selectedYear, selectedMonth, day) >
-                  new Date(
-                    today.getFullYear(),
-                    today.getMonth(),
-                    today.getDate()
-                  );
-
               return (
                 <TouchableOpacity
                   key={index}
                   disabled={!day}
-                  onPress={() => setSelectedDay(day)}
+                  onPress={() => {
+                    if (day !== null) {
+                      setSelectedDay(day);
+                      setDayModalVisible(true); // ✅ ABRE O MODAL
+                    }
+                  }}
                   style={[
                     styles.dayBox,
                     day === null && styles.dayBoxEmpty,
-                    isPast && styles.dayBoxPast,
-                    isFuture && styles.dayBoxFuture,
                     isToday && styles.dayBoxToday,
                     isSelected && styles.dayBoxSelected,
                   ]}
                 >
-                  <Text
-                    style={[
-                      styles.dayLabel,
-                      isFuture && styles.dayLabelPast,
-                      isToday && styles.dayLabelToday,
-                    ]}
-                  >
-                    {day || ""}
-                  </Text>
+                  <Text style={styles.dayLabel}>{day || ""}</Text>
                 </TouchableOpacity>
               );
             })}
@@ -213,6 +192,7 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
+      {/* MODAIS */}
       <CalendarModal
         visible={monthModalVisible}
         title="Selecione o mês"
@@ -234,6 +214,13 @@ export default function HomeScreen() {
         onSelect={(value) => {
           setSelectedYear(value);
         }}
+      />
+
+      {/* ✅ MODAL DO DIA */}
+      <DiadoCalendario
+        visible={dayModalVisible}
+        selectedDay={selectedDay}
+        onClose={() => setDayModalVisible(false)}
       />
     </SafeAreaView>
   );

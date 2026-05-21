@@ -61,23 +61,69 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  notaItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FFF9F0",
-    padding: 18,
-    borderRadius: 15,
-    marginBottom: 12,
-    borderLeftWidth: 5,
-    borderLeftColor: "#F2A31B",
-    elevation: 1,
+  /* 🔥 NOVO CARD */
+  card: {
+    backgroundColor: "#F2F2F2",
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 15,
   },
 
-  notaTexto: {
-    fontSize: 9,
-    color: "#444",
-    marginLeft: 10,
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  cardTitle: {
+    fontSize: 16,
+    fontFamily: "Poppins_700Bold",
+    color: "#000",
+  },
+
+  actions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+
+  continueButton: {
+    backgroundColor: "#F2D3A2",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+
+  continueText: {
+    fontSize: 12,
     fontFamily: "Poppins_600SemiBold",
+    color: "#000",
+  },
+
+  deleteButton: {
+    backgroundColor: "#F2D3A2",
+    padding: 6,
+    borderRadius: 8,
+  },
+
+  /* DESCRIÇÃO */
+  descriptionBox: {
+    backgroundColor: "#E0E0E0",
+    borderRadius: 12,
+    padding: 12,
+    marginTop: 12,
+  },
+
+  descriptionTitle: {
+    fontSize: 13,
+    fontFamily: "Poppins_700Bold",
+    marginBottom: 4,
+  },
+
+  descriptionText: {
+    fontSize: 13,
+    fontFamily: "Poppins_400Regular",
+    color: "#333",
   },
 
   emptyText: {
@@ -87,22 +133,4 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
   },
-
-  notaTitulo: {
-  fontSize: 16,
-  fontFamily: "Poppins_700Bold",
-  color: "#000",
-},
-
-notaData: {
-  fontSize: 12,
-  fontFamily: "Poppins_400Regular",
-  color: "#777",
-  marginBottom: 4,
-},
-deleteButton: {
-  padding: 8,
-  justifyContent: "center",
-  alignItems: "center",
-},
 });

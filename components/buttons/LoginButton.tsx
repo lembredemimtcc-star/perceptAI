@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 
-import { styles } from "@/styles/loginButton.styles";
+import { styles } from "../style/loginButton.styles";
 
 type Props = TouchableOpacityProps & {
   title: string;

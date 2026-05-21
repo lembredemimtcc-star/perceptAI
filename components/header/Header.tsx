@@ -8,7 +8,7 @@ import { router } from "expo-router";
 
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 
-import { styles } from "@/styles/header.styles";
+import { styles } from "@/components/style/header.styles";
 
 type Props = {
   title: string;
