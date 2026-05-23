@@ -11,15 +11,15 @@ import {
 } from "react-native";
 
 import {
-  useFonts,
   Poppins_400Regular,
   Poppins_600SemiBold,
   Poppins_700Bold,
+  useFonts,
 } from "@expo-google-fonts/poppins";
 
 import {
-  CameraView,
   CameraType,
+  CameraView,
   useCameraPermissions,
 } from "expo-camera";
 
@@ -28,6 +28,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "@/styles/camera.styles";
 
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
+
+import ConfigDeteccao from "@/components/modals/configdeteccao";
+
+import AjudaModal from "@/components/modals/ajudaModal";
 
 export default function CameraScreen() {
   const [facing, setFacing] =
@@ -41,6 +45,12 @@ export default function CameraScreen() {
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
+
+  const [configModalVisible, setConfigModalVisible] =
+    useState(false);
+
+  const [helpModalVisible, setHelpModalVisible] =
+    useState(false);
 
   useEffect(() => {
     requestPermission();
@@ -79,7 +89,7 @@ export default function CameraScreen() {
         <PrimaryButton
           title="Configurar detecção de emoções"
           onPress={() => {
-            console.log("Ir para configurações");
+            setConfigModalVisible(true);
           }}
         />
 
@@ -127,6 +137,32 @@ export default function CameraScreen() {
           }}
         />
       </ScrollView>
+
+      {/* BOTÃO ? */}
+      <TouchableOpacity
+        onPress={() => setHelpModalVisible(true)}
+        style={styles.helpButton}
+      >
+        <Text style={styles.helpButtonText}>
+          ?
+        </Text>
+      </TouchableOpacity>
+
+      {/* MODAL CONFIG */}
+      <ConfigDeteccao
+        visible={configModalVisible}
+        onClose={() => setConfigModalVisible(false)}
+        onSave={() => {
+          setConfigModalVisible(false);
+          console.log("Configuração salva");
+        }}
+      />
+
+      {/* MODAL AJUDA */}
+      <AjudaModal
+        visible={helpModalVisible}
+        onClose={() => setHelpModalVisible(false)}
+      />
     </SafeAreaView>
   );
 }

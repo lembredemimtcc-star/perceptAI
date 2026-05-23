@@ -25,6 +25,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
+  backButtonContainer: {
+    width: 120,
+  },
+
   titleText: {
     fontSize: 26,
     fontFamily: "Poppins_700Bold",
@@ -60,31 +64,32 @@ export const styles = StyleSheet.create({
     textAlignVertical: "top",
     marginBottom: 25,
   },
+
   dateButton: {
-  width: "100%",
-  paddingVertical: 14,
-  borderWidth: 1,
-  borderColor: "#DDD",
-  borderRadius: 12,
-  paddingHorizontal: 15,
-  marginBottom: 20,
-},
+    width: "100%",
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
 
-dateText: {
-  fontSize: 16,
-  fontFamily: "Poppins_400Regular",
-  color: "#000",
-},
+  dateText: {
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    color: "#000",
+  },
 
-inputSmall: {
-  width: "100%",
-  height: 50,
-  borderWidth: 1,
-  borderColor: "#DDD",
-  borderRadius: 12,
-  paddingHorizontal: 15,
-  fontSize: 16,
-  fontFamily: "Poppins_400Regular",
-  marginBottom: 20,
-},
+  inputSmall: {
+    width: "100%",
+    height: 50,
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    fontFamily: "Poppins_400Regular",
+    marginBottom: 20,
+  },
 });

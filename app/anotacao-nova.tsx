@@ -44,7 +44,7 @@ export default function AnotacaoNova() {
   if (!fontsLoaded) return null;
 
   function onChangeDate(event: any, selectedDate?: Date) {
-    setShowPicker(Platform.OS === "ios");
+    setShowPicker(false);
 
     if (selectedDate) {
       setDate(selectedDate);
@@ -80,7 +80,7 @@ export default function AnotacaoNova() {
             <View style={styles.headerLine} />
           </View>
 
-          <View style={{ width: 120 }}>
+          <View style={styles.backButtonContainer}>
             <SecondaryButton
               title="Voltar"
               onPress={() => router.back()}
@@ -118,6 +118,8 @@ export default function AnotacaoNova() {
           <DateTimePicker
             value={date}
             mode="date"
+            display="calendar"
+            design="material"
             onChange={onChangeDate}
           />
         )}

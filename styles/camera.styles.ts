@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
 
   scrollContent: {
     paddingHorizontal: 20,
-    
     paddingBottom: 30,
   },
 
@@ -17,7 +16,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    // marginTop: 0,
     marginBottom: 25,
   },
 
@@ -35,7 +33,6 @@ export const styles = StyleSheet.create({
     width: 140,
     height: 1.5,
     backgroundColor: "#000",
-    // marginTop: 2,
   },
 
   /* BOTÃO VOLTAR */
@@ -43,7 +40,6 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
     color: "#000",
-    // marginTop: 4,
   },
 
   /* BOTÃO CONFIG */
@@ -141,5 +137,25 @@ export const styles = StyleSheet.create({
     color: "#000",
     fontSize: 18,
     fontFamily: "Poppins_600SemiBold",
+  },
+
+  /* BOTÃO AJUDA */
+  helpButton: {
+    position: "absolute",
+    bottom: 30,
+    right: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#969696",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5,
+  },
+
+  helpButtonText: {
+    color: "#FFF",
+    fontSize: 22,
+    fontWeight: "bold",
   },
 });

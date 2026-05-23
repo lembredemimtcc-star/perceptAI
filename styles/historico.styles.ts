@@ -1,5 +1,3 @@
-// historico.styles.ts
-
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
@@ -12,6 +10,31 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     marginTop: 10,
+  },
+
+  /* FILTROS */
+  filtersContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    gap: 12,
+  },
+
+  customSelect: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#F3DEC0",
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+  },
+
+  customSelectText: {
+    fontSize: 14,
+    color: "#000",
+    fontFamily: "Poppins_600SemiBold",
   },
 
   /* DATA */

@@ -1,6 +1,7 @@
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { CalendarModal } from "@/components/modals/CalendarModal";
+import ConfirmacaoModal from "@/components/modals/confirmacaoModal";
 import { DiadoCalendario } from "@/components/modals/DiadoCalendario";
 
 import { styles } from "@/styles/home.styles";
@@ -43,7 +44,10 @@ export default function HomeScreen() {
     today.getDate()
   );
 
-  // ✅ estado do modal do dia
+  // ✅ modal confirmação
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+
+  // ✅ modal do calendário
   const [dayModalVisible, setDayModalVisible] = useState(false);
 
   const months = [
@@ -101,12 +105,18 @@ export default function HomeScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Identifique emoções</Text>
 
-          <View style={styles.instructionBoxCustom}>
-            <Text style={styles.instructionTextCustom}>
-              Para identificar as emoções de uma pessoa, utilize a nossa câmera
-              e descubra como ela está se sentindo.
-            </Text>
-          </View>
+          {/* ✅ TEXTO CLICÁVEL */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setConfirmModalVisible(true)}
+          >
+            <View style={styles.instructionBoxCustom}>
+              <Text style={styles.instructionTextCustom}>
+                Para identificar as emoções de uma pessoa, utilize a nossa
+                câmera e descubra como ela está se sentindo.
+              </Text>
+            </View>
+          </TouchableOpacity>
 
           <View style={styles.buttonRow}>
             <PrimaryButton
@@ -169,7 +179,9 @@ export default function HomeScreen() {
                   onPress={() => {
                     if (day !== null) {
                       setSelectedDay(day);
-                      setDayModalVisible(true); // ✅ ABRE O MODAL
+
+                      // ✅ abre o modal do calendário
+                      setDayModalVisible(true);
                     }
                   }}
                   style={[
@@ -216,7 +228,18 @@ export default function HomeScreen() {
         }}
       />
 
-      {/* ✅ MODAL DO DIA */}
+      {/* ✅ MODAL CONFIRMAÇÃO */}
+      <ConfirmacaoModal
+        visible={confirmModalVisible}
+        onClose={() => setConfirmModalVisible(false)}
+        onConfirm={() => {
+          setConfirmModalVisible(false);
+
+          console.log("Confirmado");
+        }}
+      />
+
+      {/* ✅ MODAL DIA DO CALENDÁRIO */}
       <DiadoCalendario
         visible={dayModalVisible}
         selectedDay={selectedDay}

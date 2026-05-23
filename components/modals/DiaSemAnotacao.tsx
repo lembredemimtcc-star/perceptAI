@@ -8,10 +8,10 @@ type Props = {
   onClose: () => void;
 };
 
-export function DiadoCalendario({
+export default function DiaSemAnotacao({
   visible,
   selectedDay,
-  onClose,
+ onClose,
 }: Props) {
   return (
     <Modal transparent visible={visible} animationType="fade">
