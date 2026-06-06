@@ -1,50 +1,127 @@
-# Welcome to your Expo app 👋
+# 🧠 PerceptAI — Sistema Assistivo de Cuidado
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+O **PerceptAI** é um aplicativo móvel voltado ao cuidado assistivo de pessoas com mobilidade reduzida. O aplicativo utiliza a câmera do dispositivo em tempo real para capturar frames, enviando-os para um modelo de Inteligência Artificial capaz de classificar microexpressões faciais e alertar cuidadores instantaneamente caso detecte estados de dor ou mal-estar no paciente sob cuidados.
 
-## Get started
+---
 
-1. Install dependencies
+## 🎨 Emoções Detectadas
 
-   ```bash
-   npm install
-   ```
+O modelo de IA monitora e identifica as seguintes **5 microexpressões**:
+1. **Medo**
+2. **Enjoo** (Mal-estar)
+3. **Dor**
+4. **Sono**
+5. **Tristeza**
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🏗️ Arquitetura do Sistema
 
-In the output, you'll find options to open the app in a
+O ecossistema é composto por **3 componentes principais** trabalhando em conjunto:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+[ Celular / React Native ] --(Frame Base64)--> [ API ASP.NET Core C# ]
+            |                                         |
+            | (Leitura / Escrita / Realtime)          | (Detecção / ONNX / MobileNetV2)
+            v                                         v
+   [ ----------------------- Supabase Database ----------------------- ]
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+1. **Front-end (React Native com Expo)**: Aplicativo móvel que realiza a captura de imagens pela câmera, exibe o status de detecção, dispara notificações e mantém um histórico com sincronização em tempo real.
+2. **Back-end (PerceptAI.API em ASP.NET Core)**: Web API desenvolvida em C# que recebe o frame codificado, realiza o pré-processamento e executa a inferência de IA usando a biblioteca do **ONNX Runtime** com o modelo MobileNetV2.
+3. **Banco de Dados (Supabase)**: Serviço de persistência baseado em PostgreSQL que armazena usuários, pacientes, logs de detecções e envia notificações ao vivo usando **Websockets (Realtime)**.
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## ⚙️ Pré-requisitos
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Antes de iniciar, certifique-se de que sua máquina atende às seguintes dependências:
+* **Node.js** (versão 18 ou superior) & **Expo CLI**
+* **Python 3.11** (com PyTorch e a CLI do Kaggle instalados para o treino)
+* **Visual Studio** (com cargas de trabalho de desenvolvimento web .NET 10.0)
+* **Conta no Supabase** (para provisionar o banco de dados)
+* **Conta no Kaggle** (com o arquivo `kaggle.json` configurado na pasta do seu usuário do Windows `~/.kaggle/`)
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🚀 Como Rodar o Projeto
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Siga a ordem ideal de execução para colocar o ecossistema no ar:
+
+### 1. Configurar o Supabase
+* Crie um projeto no painel do [Supabase](https://supabase.com/).
+* Acesse a ferramenta **SQL Editor** no painel do projeto.
+* Abra o arquivo [supabase_schema.sql](file:///c:/Users/Solange/Desktop/perceptAI/supabase_schema.sql), copie todo o seu conteúdo, cole no editor do painel e clique em **Run** para criar as tabelas e ativar a sincronização em tempo real (Realtime).
+* Copie o link da sua **Project URL** e a chave de acesso público **anon Key** em *Project Settings -> API*.
+
+### 2. Configurar o arquivo `.env` do Front-end
+* Abra o arquivo [.env](file:///c:/Users/Solange/Desktop/perceptAI/.env) na raiz do projeto `perceptAI`.
+* Preencha as chaves do Supabase e o endereço IP correto da API C#:
+  ```env
+  EXPO_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+  EXPO_PUBLIC_SUPABASE_ANON_KEY=sua-anon-key-aqui
+  EXPO_PUBLIC_API_URL=http://localhost:5246
+  ```
+  > [!TIP]
+  > Se for testar no **emulador Android**, utilize `http://10.0.2.2:5246`. Se for testar no seu **celular físico (Expo Go)**, utilize o IP local da sua máquina de desenvolvimento (ex: `http://192.168.1.50:5246`).
+
+### 3. Treinar o Modelo de Inteligência Artificial
+* No terminal, acesse a pasta de scripts do Python:
+  ```bash
+  cd scripts
+  ```
+* Execute o pipeline automático de treinamento e exportação:
+  ```bash
+  python train.py
+  ```
+  * *Este comando baixará os datasets do Kaggle, preparará a estrutura de pastas por classe, fará o Fine-Tuning do classificador MobileNetV2 e gerará o arquivo `model.onnx` diretamente na pasta `PerceptAI.API/ML/model.onnx`.*
+
+### 4. Rodar a API C# no Visual Studio
+* Abra a pasta `PerceptAI.API` utilizando o **Visual Studio**.
+* Verifique se o arquivo `ML/model.onnx` foi exportado com sucesso no passo anterior.
+* Clique no botão **Play** ou pressione **F5** para iniciar o servidor ASP.NET Core local. O Swagger abrirá automaticamente.
+
+### 5. Rodar o Aplicativo Móvel (React Native)
+* No terminal, volte para a raiz da pasta `perceptAI`.
+* Inicialize o servidor do Expo:
+  ```bash
+  npm run start
+  ```
+* Escaneie o QR Code exibido com o aplicativo **Expo Go** no seu celular ou pressione `a` para executar no emulador Android.
+
+---
+
+## 📂 Estrutura de Pastas Principal
+
+### Front-end (`perceptAI`)
+```text
+perceptAI/
+├── app/                  # Telas principais e rotas do Expo Router
+│   ├── (tabs)/           # Abas de navegação (Histórico, Anotações, Perfil)
+│   ├── camera.tsx        # Tela de captura e inferência da câmera
+│   └── login.tsx         # Tela de autenticação
+├── components/           # Componentes UI reutilizáveis (botões, modais)
+├── scripts/              # Scripts Python para download, treino e ONNX
+│   ├── train.py          # Script principal de treino da IA
+│   └── export_onnx.py    # Script de exportação (opcional/auxiliar)
+├── services/             # Lógica de conexão (Supabase Client e Auth)
+│   ├── api.ts            # Queries do Supabase
+│   └── auth.ts           # Cadastro e login com Supabase Auth
+└── types/                # Definições de tipos do TypeScript
+```
+
+### Back-end (`PerceptAI.API`)
+```text
+PerceptAI.API/
+├── Controllers/
+│   └── DetectionController.cs   # Endpoint POST /api/detection/detect
+├── ML/
+│   └── model.onnx               # Arquivo binário da IA exportado
+├── Models/
+│   ├── DetectionRequest.cs      # Modelo de entrada (Base64 + PatientId)
+│   └── DetectionResponse.cs     # Modelo de resposta (Emotion + Confidence)
+├── Services/
+│   ├── ImagePreprocessingService.cs # Resize 224x224 e normalização
+│   └── EmotionDetectionService.cs    # Inferência com ONNX Runtime
+└── Program.cs                   # Configuração de serviços e CORS
+```

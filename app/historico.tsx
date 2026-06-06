@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Header from "@/components/header/Header";
 import { CalendarModal } from "@/components/modals/CalendarModal";
@@ -9,6 +9,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import {
@@ -19,6 +20,8 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import { styles } from "@/styles/historico.styles";
+import { supabase, fetchDetections } from "@/services/api";
+import { Detection } from "@/types/emotion";
 
 export default function HistoricoScreen() {
   const [fontsLoaded] = useFonts({
@@ -43,6 +46,9 @@ export default function HistoricoScreen() {
   const [yearModalVisible, setYearModalVisible] =
     useState(false);
 
+  const [detections, setDetections] = useState<Detection[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const months = [
     "Janeiro",
     "Fevereiro",
@@ -60,7 +66,51 @@ export default function HistoricoScreen() {
 
   const years = [2023, 2024, 2025, 2026];
 
+  // Carrega as detecções do Supabase e inscreve canal Realtime
+  useEffect(() => {
+    const loadDetectionsData = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchDetections();
+        setDetections(data);
+      } catch (err) {
+        console.error("Erro ao carregar histórico de detecções:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDetectionsData();
+
+    // Inscreve-se ao vivo na tabela 'detections'
+    const channel = supabase
+      .channel("realtime-detections")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "detections" },
+        (payload) => {
+          console.log("Nova detecção capturada em tempo real:", payload.new);
+          const newDetection = payload.new as Detection;
+          setDetections((prev) => [newDetection, ...prev]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
   if (!fontsLoaded) return null;
+
+  // Filtra as detecções de acordo com o mês e ano selecionados
+  const filteredDetections = detections.filter((item) => {
+    const d = new Date(item.timestamp);
+    return d.getMonth() === selectedMonth && d.getFullYear() === selectedYear;
+  });
+
+  // Auxiliar para agrupamento por data (evita repetir o cabeçalho do mesmo dia)
+  let lastDateStr = "";
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,55 +145,64 @@ export default function HistoricoScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* DIA */}
-          <Text style={styles.dateTitle}>
-            Dia 7 de março de 2026
-          </Text>
-
-          {/* ITEM */}
-          <View style={styles.historyItem}>
-            <View style={styles.emotionBox}>
-              <Text style={styles.emotionText}>
-                Emoção: Dor
+          {loading ? (
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <ActivityIndicator size="large" color="#F2A31B" />
+              <Text style={{ marginTop: 10, fontFamily: "Poppins_400Regular", color: "#666" }}>
+                Carregando histórico...
               </Text>
             </View>
-
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>
-                18:34
+          ) : filteredDetections.length === 0 ? (
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <Text style={{ fontFamily: "Poppins_600SemiBold", fontSize: 16, color: "#999" }}>
+                Nenhuma detecção registrada
+              </Text>
+              <Text style={{ fontFamily: "Poppins_400Regular", fontSize: 13, color: "#BBB", textAlign: "center", marginTop: 5 }}>
+                Não há detecções críticas de microexpressões para o mês selecionado.
               </Text>
             </View>
-          </View>
+          ) : (
+            filteredDetections.map((item) => {
+              const date = new Date(item.timestamp);
+              // Obtém a data local formatada DD/MM/AAAA para agrupamento
+              const dateStr = date.toLocaleDateString("pt-BR");
+              const showHeader = dateStr !== lastDateStr;
+              lastDateStr = dateStr;
 
-          {/* ITEM */}
-          <View style={styles.historyItem}>
-            <View style={styles.emotionBox}>
-              <Text style={styles.emotionText}>
-                Emoção: Sono
-              </Text>
-            </View>
+              const formattedTime = date.toLocaleTimeString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
 
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>
-                18:22
-              </Text>
-            </View>
-          </View>
+              // Capitaliza o nome da emoção
+              const capitalizedEmotion = item.tipo_emocao.charAt(0).toUpperCase() + item.tipo_emocao.slice(1);
 
-          {/* ITEM */}
-          <View style={styles.historyItem}>
-            <View style={styles.emotionBox}>
-              <Text style={styles.emotionText}>
-                Emoção: Sede
-              </Text>
-            </View>
+              return (
+                <View key={item.id} style={{ width: "100%" }}>
+                  {showHeader && (
+                    <Text style={styles.dateTitle}>
+                      Dia {date.getDate()} de {months[date.getMonth()].toLowerCase()} de {date.getFullYear()}
+                    </Text>
+                  )}
 
-            <View style={styles.timeBox}>
-              <Text style={styles.timeText}>
-                17:30
-              </Text>
-            </View>
-          </View>
+                  {/* ITEM */}
+                  <View style={styles.historyItem}>
+                    <View style={styles.emotionBox}>
+                      <Text style={styles.emotionText}>
+                        Emoção: {capitalizedEmotion} {item.confianca ? `(${(item.confianca * 100).toFixed(0)}%)` : ""}
+                      </Text>
+                    </View>
+
+                    <View style={styles.timeBox}>
+                      <Text style={styles.timeText}>
+                        {formattedTime}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              );
+            })
+          )}
         </View>
       </ScrollView>
 

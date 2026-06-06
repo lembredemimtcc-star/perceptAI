@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   View,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import styles from "../style/configuracaoDeteccaoModal.styles";
 
@@ -22,14 +23,51 @@ export default function ConfiguracaoDeteccaoModal({
 }: Props) {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [horario, setHorario] = useState("");
+  const [threshold, setThreshold] = useState("75");
 
   const days = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+  // Carrega as configurações salvas sempre que o modal se torna visível
+  useEffect(() => {
+    if (visible) {
+      const loadConfig = async () => {
+        try {
+          const savedThreshold = await AsyncStorage.getItem("@perceptai:threshold");
+          if (savedThreshold) {
+            setThreshold(savedThreshold);
+          }
+          const savedHorario = await AsyncStorage.getItem("@perceptai:horario");
+          if (savedHorario) {
+            setHorario(savedHorario);
+          }
+          const savedDays = await AsyncStorage.getItem("@perceptai:days");
+          if (savedDays) {
+            setSelectedDays(JSON.parse(savedDays));
+          }
+        } catch (e) {
+          console.error("Erro ao carregar configurações de detecção:", e);
+        }
+      };
+      loadConfig();
+    }
+  }, [visible]);
 
   const toggleDay = (day: string) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((item) => item !== day));
     } else {
       setSelectedDays([...selectedDays, day]);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await AsyncStorage.setItem("@perceptai:threshold", threshold);
+      await AsyncStorage.setItem("@perceptai:horario", horario);
+      await AsyncStorage.setItem("@perceptai:days", JSON.stringify(selectedDays));
+      onSave();
+    } catch (e) {
+      console.error("Erro ao salvar configurações de detecção:", e);
     }
   };
 
@@ -48,6 +86,17 @@ export default function ConfiguracaoDeteccaoModal({
             placeholder="Ex: 14:30"
             value={horario}
             onChangeText={setHorario}
+            placeholderTextColor="#999"
+          />
+
+          <Text style={styles.label}>Limiar de Confiança (%)</Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Ex: 75"
+            keyboardType="numeric"
+            value={threshold}
+            onChangeText={setThreshold}
             placeholderTextColor="#999"
           />
 
@@ -91,7 +140,7 @@ export default function ConfiguracaoDeteccaoModal({
 
             <TouchableOpacity
               style={styles.saveButton}
-              onPress={onSave}
+              onPress={handleSave}
             >
               <Text style={styles.saveButtonText}>
                 Salvar
