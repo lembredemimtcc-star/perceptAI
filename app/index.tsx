@@ -2,7 +2,10 @@ import { styles } from "@/styles/splash.styles";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
 import {Animated,Dimensions,Easing,Image,SafeAreaView,Text,View,DimensionValue,} from "react-native";
+<<<<<<< HEAD
 import { useAuth } from "@/context/AuthContext";
+=======
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
 const { width, height } = Dimensions.get("window");
 
@@ -37,8 +40,11 @@ export default function Index() {
     [],
   );
 
+<<<<<<< HEAD
   const { isAuthenticated, isLoading } = useAuth();
 
+=======
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   useEffect(() => {
     animatedValues.forEach((value, index) => {
       const startAnimation = () => {
@@ -55,6 +61,7 @@ export default function Index() {
       startAnimation();
     });
 
+<<<<<<< HEAD
     if (isLoading) return;
 
     const route = isAuthenticated ? "/(tabs)" : "/autenticacao";
@@ -64,6 +71,14 @@ export default function Index() {
 
     return () => clearTimeout(timer);
   }, [animatedValues, dots, isAuthenticated, isLoading]);
+=======
+    const timer = setTimeout(() => {
+      router.replace("/autenticacao");
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [animatedValues, dots]);
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   return (
     <SafeAreaView style={styles.container}>

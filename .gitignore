@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ============================================================
 # SEGREDOS E VARIÁVEIS DE AMBIENTE
 # ============================================================
@@ -15,12 +16,21 @@ node_modules/
 # ============================================================
 # EXPO
 # ============================================================
+=======
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependências
+node_modules/
+
+# Expo
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 .expo/
 dist/
 build/
 web-build/
 expo-env.d.ts
 
+<<<<<<< HEAD
 # ============================================================
 # MODELO DE IA (arquivos grandes de ML)
 # ============================================================
@@ -54,11 +64,19 @@ checkpoints/
 # ============================================================
 # LOGS
 # ============================================================
+=======
+# Variáveis de ambiente sensíveis
+.env
+.env*.local
+
+# Logs
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 *.log
 npm-debug.*
 yarn-debug.*
 yarn-error.*
 
+<<<<<<< HEAD
 # ============================================================
 # EDITORES E IDEs
 # ============================================================
@@ -86,3 +104,29 @@ Thumbs.db
 # OUTROS
 # ============================================================
 app-example
+=======
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# macOS
+.DS_Store
+*.pem
+
+# typescript
+*.tsbuildinfo
+
+app-example
+
+# generated native folders
+/ios
+/android
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+<<<<<<< HEAD
 import { useAuth } from '@/context/AuthContext';
 
 export function CustomDrawer(props: any) {
@@ -9,6 +10,10 @@ export function CustomDrawer(props: any) {
   const displayName = profile?.nome ?? user?.email?.split("@")[0] ?? "Usuário";
   const displayEmail = profile?.email ?? user?.email ?? "";
 
+=======
+
+export function CustomDrawer(props: any) {
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   return (
     <View style={styles.container}>
       <DrawerContentScrollView
@@ -25,8 +30,13 @@ export function CustomDrawer(props: any) {
           </TouchableOpacity>
 
           <View style={styles.userInfo}>
+<<<<<<< HEAD
             <Text style={styles.userName}>{displayName}</Text>
             <Text style={styles.userEmail}>{displayEmail}</Text>
+=======
+            <Text style={styles.userName}>Ana Clara</Text>
+            <Text style={styles.userEmail}>ana@gmail.com</Text>
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
           </View>
         </View>
 
@@ -93,4 +103,8 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
   },
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -19,12 +20,21 @@ type Props = {
   /** JS month index (0-11) */
   selectedMonth: number;
   selectedYear: number;
+=======
+import React from "react";
+import { Modal, View, Text, TouchableOpacity } from "react-native";
+import { styles } from "../style/diaCalendario.styles";
+
+type Props = {
+  visible: boolean;
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   selectedDay: number | null;
   onClose: () => void;
 };
 
 export function DiadoCalendario({
   visible,
+<<<<<<< HEAD
   selectedMonth,
   selectedYear,
   selectedDay,
@@ -133,8 +143,30 @@ export function DiadoCalendario({
               <Text style={[styles.buttonText, { color: "#000" }]}>Fechar</Text>
             </TouchableOpacity>
           </View>
+=======
+  selectedDay,
+  onClose,
+}: Props) {
+  return (
+    <Modal transparent visible={visible} animationType="fade">
+      <View style={styles.overlay}>
+        <View style={styles.modalContainer}>
+          <Text style={styles.title}>Dia {selectedDay}</Text>
+
+          <Text style={styles.message}>
+            Anotação do dia
+          </Text>
+
+          <TouchableOpacity style={styles.button} onPress={onClose}>
+            <Text style={styles.buttonText}>Fechar</Text>
+          </TouchableOpacity>
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         </View>
       </View>
     </Modal>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

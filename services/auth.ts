@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { supabase } from "./supabaseClient";
+=======
+import { supabase } from "./api";
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 import { UserProfile } from "../types/user";
 
 /**
@@ -14,9 +18,12 @@ export async function signUp(
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
+<<<<<<< HEAD
     options: {
       data: { nome, tipo },
     },
+=======
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   });
 
   if (authError) {
@@ -29,6 +36,7 @@ export async function signUp(
     throw new Error("Não foi possível criar o usuário no Supabase.");
   }
 
+<<<<<<< HEAD
   if (!authData.session) {
     return {
       id: user.id,
@@ -43,6 +51,12 @@ export async function signUp(
   const { data: profileData, error: profileError } = await supabase
     .from("users")
     .upsert([
+=======
+  // 2. Cria o registro na tabela de dados complementares 'users'
+  const { data: profileData, error: profileError } = await supabase
+    .from("users")
+    .insert([
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
       {
         id: user.id, // Vincula ao ID gerado pelo Auth do Supabase
         nome: nome,
@@ -118,6 +132,7 @@ export async function signOut(): Promise<void> {
  * Obtém a sessão do usuário atualmente logado e seu perfil complementar.
  */
 export async function getCurrentUser(): Promise<{ user: any; profile: UserProfile | null } | null> {
+<<<<<<< HEAD
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
   if (sessionError || !session?.user) {
@@ -126,6 +141,16 @@ export async function getCurrentUser(): Promise<{ user: any; profile: UserProfil
 
   const user = session.user;
 
+=======
+  // 1. Obtém o usuário ativo na sessão
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return null;
+  }
+
+  // 2. Obtém o perfil complementar associado na tabela 'users'
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   const { data: profileData, error: profileError } = await supabase
     .from("users")
     .select("*")

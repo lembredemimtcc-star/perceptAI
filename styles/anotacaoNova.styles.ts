@@ -92,6 +92,7 @@ export const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     marginBottom: 20,
   },
+<<<<<<< HEAD
 
   errorText: {
     color: "#E63946",
@@ -99,4 +100,6 @@ export const styles = StyleSheet.create({
     fontFamily: "Poppins_600SemiBold",
     marginBottom: 16,
   },
+=======
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 });

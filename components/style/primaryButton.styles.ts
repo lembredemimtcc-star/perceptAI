@@ -16,8 +16,11 @@ export const styles = StyleSheet.create({
     fontFamily: 'Poppins_700Bold',
     fontWeight: 'bold',
   },
+<<<<<<< HEAD
 
   disabledButton: {
     opacity: 0.5,
   },
+=======
+>>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 });
