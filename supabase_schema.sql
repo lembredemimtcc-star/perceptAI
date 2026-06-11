@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS users (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     tipo VARCHAR(50) NOT NULL CHECK (tipo IN ('cuidador', 'paciente')),
-<<<<<<< HEAD
     data_nascimento DATE,
     fonte_tamanho INTEGER DEFAULT 16 NOT NULL,
     modo_claro BOOLEAN DEFAULT TRUE NOT NULL,
@@ -51,11 +50,6 @@ CREATE TRIGGER on_auth_user_created
 AFTER INSERT ON auth.users
 FOR EACH ROW EXECUTE FUNCTION public.handle_new_auth_user();
 
-=======
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, now()) NOT NULL
-);
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 -- 2. Tabela: patients
 -- Define a relação dos pacientes cadastrados e o cuidador responsável
 CREATE TABLE IF NOT EXISTS patients (
@@ -82,7 +76,6 @@ CREATE TABLE IF NOT EXISTS detections (
 CREATE TABLE IF NOT EXISTS annotations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     patient_id UUID REFERENCES patients(id) ON DELETE CASCADE NOT NULL,
-<<<<<<< HEAD
     titulo VARCHAR(255) NOT NULL,
     texto TEXT NOT NULL,
     data_nota DATE DEFAULT CURRENT_DATE,
@@ -93,12 +86,6 @@ ALTER TABLE annotations
     ADD COLUMN IF NOT EXISTS titulo VARCHAR(255) NOT NULL DEFAULT '',
     ADD COLUMN IF NOT EXISTS data_nota DATE DEFAULT CURRENT_DATE;
 
-=======
-    texto TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, now()) NOT NULL
-);
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 -- 5. Tabela: alerts
 -- Alertas instantâneos disparados para o cuidador caso ocorra uma detecção crítica
 CREATE TABLE IF NOT EXISTS alerts (
@@ -115,7 +102,6 @@ CREATE TABLE IF NOT EXISTS alerts (
 -- Habilita o canal Supabase Realtime para transmitir novas inserções
 -- e alterações de status nas tabelas de detecções e alertas em tempo real.
 
-<<<<<<< HEAD
 DO $$
 BEGIN
     IF NOT EXISTS (
@@ -281,6 +267,3 @@ CREATE POLICY "Caregivers can update own alerts"
 ON alerts FOR UPDATE
 USING (auth.uid() = cuidador_id)
 WITH CHECK (auth.uid() = cuidador_id);
-=======
-ALTER PUBLICATION supabase_realtime ADD TABLE detections, alerts;
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

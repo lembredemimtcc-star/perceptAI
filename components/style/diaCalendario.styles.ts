@@ -9,11 +9,7 @@ export const styles = StyleSheet.create({
   },
 
   modalContainer: {
-<<<<<<< HEAD
     width: "88%",
-=======
-    width: "80%",
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
     backgroundColor: "#FFF",
     borderRadius: 20,
     padding: 20,
@@ -21,28 +17,18 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-<<<<<<< HEAD
     fontSize: 20,
     fontFamily: "Poppins_700Bold",
     marginBottom: 4,
     color: "#000",
-=======
-    fontSize: 18,
-    fontFamily: "Poppins_700Bold",
-    marginBottom: 10,
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   },
 
   message: {
     fontSize: 14,
     fontFamily: "Poppins_400Regular",
     textAlign: "center",
-<<<<<<< HEAD
     color: "#555",
     marginBottom: 8,
-=======
-    marginBottom: 20,
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   },
 
   button: {
@@ -50,20 +36,4 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 25,
     borderRadius: 10,
-<<<<<<< HEAD
     alignItems: "center",
-=======
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
-  },
-
-  buttonText: {
-    color: "#FFF",
-    fontFamily: "Poppins_600SemiBold",
-<<<<<<< HEAD
-    fontSize: 14,
-  },
-});
-=======
-  },
-});
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

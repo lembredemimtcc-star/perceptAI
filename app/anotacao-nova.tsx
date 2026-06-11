@@ -1,19 +1,10 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import {
   Platform,
-=======
-// anotacao-nova.tsx
-
-import React, { useState } from "react";
-
-import {
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
-<<<<<<< HEAD
   TouchableOpacity,
   View,
 } from "react-native";
@@ -62,35 +53,6 @@ export default function AnotacaoNova() {
   const [error, setError] = useState<string | null>(null);
 
   const { user, isAuthenticated } = useAuth();
-=======
-  View,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
-
-import DateTimePicker from "@react-native-community/datetimepicker";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
-import { router } from "expo-router";
-
-import { styles } from "@/styles/anotacaoNova.styles";
-
-import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { SecondaryButton } from "@/components/buttons/SecondaryButton";
-
-export default function AnotacaoNova() {
-  const [titulo, setTitulo] = useState("");
-  const [texto, setTexto] = useState("");
-
-  const [date, setDate] = useState(new Date());
-  const [showPicker, setShowPicker] = useState(false);
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -98,7 +60,6 @@ export default function AnotacaoNova() {
     Poppins_700Bold,
   });
 
-<<<<<<< HEAD
   // ── Load existing annotation when editing ─────────────────────────
 
   useEffect(() => {
@@ -178,34 +139,6 @@ export default function AnotacaoNova() {
 
   if (!fontsLoaded) return null;
 
-=======
-  if (!fontsLoaded) return null;
-
-  function onChangeDate(event: any, selectedDate?: Date) {
-    setShowPicker(false);
-
-    if (selectedDate) {
-      setDate(selectedDate);
-    }
-  }
-
-  function salvarNota() {
-    const novaNota = {
-      id: String(Date.now()),
-      titulo,
-      texto,
-      data: date.toLocaleDateString("pt-BR"),
-    };
-
-    router.replace({
-      pathname: "/anotacao",
-      params: {
-        novaNota: JSON.stringify(novaNota),
-      },
-    });
-  }
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -213,38 +146,17 @@ export default function AnotacaoNova() {
         <View style={styles.headerRow}>
           <View style={styles.headerContainer}>
             <Text style={styles.titleText}>
-<<<<<<< HEAD
               {isEditing ? "Editar Anotação" : "Nova Anotação"}
             </Text>
             <View style={styles.headerLine} />
           </View>
           <View style={styles.backButtonContainer}>
             <SecondaryButton title="Voltar" onPress={() => router.back()} />
-=======
-              Nova Anotação
-            </Text>
-
-            <View style={styles.headerLine} />
-          </View>
-
-          <View style={styles.backButtonContainer}>
-            <SecondaryButton
-              title="Voltar"
-              onPress={() => router.back()}
-            />
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
           </View>
         </View>
 
         {/* TÍTULO */}
-<<<<<<< HEAD
         <Text style={styles.label}>Título</Text>
-=======
-        <Text style={styles.label}>
-          Título
-        </Text>
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         <TextInput
           style={styles.inputSmall}
           value={titulo}
@@ -253,49 +165,22 @@ export default function AnotacaoNova() {
         />
 
         {/* DATA */}
-<<<<<<< HEAD
         <Text style={styles.label}>Data</Text>
         <TouchableOpacity style={styles.dateButton} onPress={() => setShowPicker(true)}>
           <Text style={styles.dateText}>{date.toLocaleDateString("pt-BR")}</Text>
-=======
-        <Text style={styles.label}>
-          Data
-        </Text>
-
-        <TouchableOpacity
-          style={styles.dateButton}
-          onPress={() => setShowPicker(true)}
-        >
-          <Text style={styles.dateText}>
-            {date.toLocaleDateString("pt-BR")}
-          </Text>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         </TouchableOpacity>
 
         {showPicker && (
           <DateTimePicker
             value={date}
             mode="date"
-<<<<<<< HEAD
             display={Platform.OS === "ios" ? "spinner" : "calendar"}
-=======
-            display="calendar"
-            design="material"
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
             onChange={onChangeDate}
           />
         )}
 
-<<<<<<< HEAD
         {/* CONTEÚDO */}
         <Text style={styles.label}>Conteúdo</Text>
-=======
-        {/* TEXTO */}
-        <Text style={styles.label}>
-          Conteúdo
-        </Text>
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         <TextInput
           style={styles.input}
           value={texto}
@@ -304,7 +189,6 @@ export default function AnotacaoNova() {
           placeholder="Digite sua anotação..."
         />
 
-<<<<<<< HEAD
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         {/* SALVAR */}
@@ -318,18 +202,8 @@ export default function AnotacaoNova() {
           }
           onPress={salvarNota}
           disabled={isSaving}
-=======
-        {/* SALVAR */}
-        <PrimaryButton
-          title="Salvar anotação"
-          onPress={salvarNota}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         />
       </ScrollView>
     </SafeAreaView>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

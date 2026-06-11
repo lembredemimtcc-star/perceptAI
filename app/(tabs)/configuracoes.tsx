@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -64,40 +63,12 @@ function formatBirthInput(text: string): string {
 export default function ConfiguracoesScreen() {
   const { user, profile, signOut, refreshProfile } = useAuth();
 
-=======
-import React, { useState } from "react";
-
-import {
-  SafeAreaView,
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-
-import { Ionicons } from "@expo/vector-icons";
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
-import { router } from "expo-router";
-
-import { styles } from "@/styles/configuracoes.styles";
-
-export default function ConfiguracoesScreen() {
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
 
-<<<<<<< HEAD
   // ── form state (pre-populated from profile) ───────────────────────
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -209,22 +180,11 @@ export default function ConfiguracoesScreen() {
       ]
     );
   }
-=======
-  const [username, setUsername] = useState("");
-
-  const [email, setEmail] = useState("");
-
-  const [birth, setBirth] = useState("");
-
-  const [isLightMode, setIsLightMode] =
-    useState(true);
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   if (!fontsLoaded) return null;
 
   return (
     <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.headerContainer}>
           <Text style={styles.titleText}>Configurações</Text>
@@ -236,32 +196,10 @@ export default function ConfiguracoesScreen() {
           <TextInput
             style={styles.input}
             placeholder="Nome de usuário"
-=======
-      <ScrollView
-        contentContainerStyle={
-          styles.scrollContent
-        }
-      >
-        <View style={styles.headerContainer}>
-          <Text style={styles.titleText}>
-            Configurações
-          </Text>
-
-          <View style={styles.headerLine} />
-        </View>
-
-        {/* INPUT USERNAME */}
-
-        <View style={styles.inputBox}>
-          <TextInput
-            style={styles.input}
-            placeholder="Username"
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
             value={username}
             onChangeText={setUsername}
             placeholderTextColor="#999"
           />
-<<<<<<< HEAD
           <Ionicons name="pencil" size={18} color="#555" />
         </View>
 
@@ -284,84 +222,17 @@ export default function ConfiguracoesScreen() {
           <TextInput
             style={styles.input}
             placeholder="dd/mm/aaaa"
-=======
-
-          <Ionicons
-            name="pencil"
-            size={18}
-            color="#555"
-          />
-        </View>
-
-        {/* INPUT EMAIL */}
-
-        <View style={styles.inputBox}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            placeholderTextColor="#999"
-          />
-
-          <Ionicons
-            name="pencil"
-            size={18}
-            color="#555"
-          />
-        </View>
-
-        {/* INPUT DATA DE NASCIMENTO */}
-
-        <View style={styles.inputBox}>
-          <TextInput
-            style={styles.input}
-            placeholder="dd/mm/yyyy"
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
             value={birth}
             keyboardType="numeric"
             maxLength={10}
             placeholderTextColor="#999"
-<<<<<<< HEAD
             onChangeText={(t) => setBirth(formatBirthInput(t))}
           />
           <Ionicons name="pencil" size={18} color="#555" />
-=======
-            onChangeText={(text) => {
-              let cleaned = text.replace(
-                /\D/g,
-                ""
-              );
-
-              if (cleaned.length > 2) {
-                cleaned = cleaned.replace(
-                  /^(\d{2})(\d)/,
-                  "$1/$2"
-                );
-              }
-
-              if (cleaned.length > 5) {
-                cleaned = cleaned.replace(
-                  /^(\d{2})\/(\d{2})(\d)/,
-                  "$1/$2/$3"
-                );
-              }
-
-              setBirth(cleaned);
-            }}
-          />
-
-          <Ionicons
-            name="pencil"
-            size={18}
-            color="#555"
-          />
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         </View>
 
         <View style={styles.divider} />
 
-<<<<<<< HEAD
         {/* MODO CLARO + TAMANHO DA FONTE */}
         <View style={styles.row}>
           <Text style={styles.label}>Modo claro</Text>
@@ -375,46 +246,10 @@ export default function ConfiguracoesScreen() {
           </TouchableOpacity>
 
           <Text style={styles.label}>Fonte</Text>
-=======
-        {/* LINHA: MODO + FONTE */}
-
-        <View style={styles.row}>
-          <Text style={styles.label}>
-            Modo claro
-          </Text>
-
-          <TouchableOpacity
-            style={[
-              styles.toggle,
-              isLightMode &&
-                styles.toggleActive,
-            ]}
-            onPress={() =>
-              setIsLightMode(
-                !isLightMode
-              )
-            }
-            activeOpacity={0.8}
-          >
-            <View
-              style={[
-                styles.toggleCircle,
-                isLightMode &&
-                  styles
-                    .toggleCircleActive,
-              ]}
-            />
-          </TouchableOpacity>
-
-          <Text style={styles.label}>
-            Fonte
-          </Text>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
           <View style={styles.fontControls}>
             <TouchableOpacity
               style={styles.fontButton}
-<<<<<<< HEAD
               onPress={() => setFontSize((v) => Math.min(v + 1, 24))}
             >
               <Text style={[styles.fontText, { fontSize }]}>A+</Text>
@@ -424,27 +259,12 @@ export default function ConfiguracoesScreen() {
               onPress={() => setFontSize((v) => Math.max(v - 1, 12))}
             >
               <Text style={[styles.fontText, { fontSize }]}>A-</Text>
-=======
-            >
-              <Text style={styles.fontText}>
-                A+
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.fontButton}
-            >
-              <Text style={styles.fontText}>
-                A-
-              </Text>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.divider} />
 
-<<<<<<< HEAD
         {/* SAIR */}
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Sair da conta</Text>
@@ -474,45 +294,8 @@ export default function ConfiguracoesScreen() {
           ) : (
             <Text style={styles.saveText}>Salvar</Text>
           )}
-=======
-        {/* BOTÃO SAIR */}
-
-        <TouchableOpacity
-          style={styles.logoutButton}
-          onPress={() =>
-            router.push("/autenticacao")
-          }
-        >
-          <Text style={styles.logoutText}>
-            Sair da conta
-          </Text>
-        </TouchableOpacity>
-
-        {/* BOTÃO EXCLUIR */}
-
-        <TouchableOpacity
-          style={styles.deleteButton}
-        >
-          <Text style={styles.deleteText}>
-            Excluir conta
-          </Text>
-        </TouchableOpacity>
-
-        {/* BOTÃO SALVAR */}
-
-        <TouchableOpacity
-          style={styles.saveButton}
-        >
-          <Text style={styles.saveText}>
-            Salvar
-          </Text>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

@@ -4,10 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
-<<<<<<< HEAD
 import { AuthProvider } from "@/context/AuthContext";
-=======
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
 // Impede que a Splash Screen saia antes das fontes carregarem
 SplashScreen.preventAutoHideAsync();
@@ -25,20 +22,12 @@ export default function RootLayout() {
     }
   }, [loaded, error]);
 
-<<<<<<< HEAD
-=======
-  // Se as fontes não carregarem e não houver erro ainda, não renderiza nada
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   if (!loaded && !error) {
     return null;
   }
 
   return (
-<<<<<<< HEAD
     <AuthProvider>
-=======
-    <>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="autenticacao" />
@@ -47,12 +36,6 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
       </Stack>
       <StatusBar style="dark" />
-<<<<<<< HEAD
     </AuthProvider>
   );
 }
-=======
-    </>
-  );
-}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
