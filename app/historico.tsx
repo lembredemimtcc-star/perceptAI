@@ -121,6 +121,20 @@ export default function HistoricoScreen() {
           </View>
 
           {/* ── CONTENT ── */}
+          {loading ? (
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <ActivityIndicator size="large" color="#F2A31B" />
+              <Text style={{ marginTop: 10, fontFamily: "Poppins_400Regular", color: "#666" }}>
+                Carregando histórico...
+              </Text>
+            </View>
+          ) : loadError ? (
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <Text style={{ fontFamily: "Poppins_600SemiBold", fontSize: 15, color: "#E63946" }}>
+                {loadError}
+              </Text>
+            </View>
+          ) : filtered.length === 0 ? (
             <View style={{ marginTop: 50, alignItems: "center" }}>
               <Text style={{ fontFamily: "Poppins_600SemiBold", fontSize: 16, color: "#999" }}>
                 Nenhuma detecção registrada

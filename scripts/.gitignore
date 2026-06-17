@@ -1,20 +1,7 @@
-# Datasets locais pesados baixados via API do Kaggle
 temp_datasets/
 
-# Imagens locais organizadas para treinamento por pasta de classe
 dataset/
-
-# Pesos e checkpoints do modelo treinado
 checkpoints/
-
-# Compilação Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-
-# Ambientes virtuais
 .venv/
-venv/
-ENV/
-env/

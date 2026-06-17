@@ -115,6 +115,22 @@ export default function CadastroScreen() {
               placeholderTextColor="#9A9A9A"
               value={nome}
               onChangeText={setNome}
+            />
+
+            {/* SENHA */}
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Digite aqui sua Senha"
+                placeholderTextColor="#9A9A9A"
+                secureTextEntry={!mostrarSenha}
+                value={password}
+                onChangeText={setPassword}
+              />
+
+              <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
+                <Ionicons
+                  name={mostrarSenha ? "eye-outline" : "eye-off-outline"}
                   size={20}
                   color="#8A8A8A"
                 />

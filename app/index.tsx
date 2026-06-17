@@ -1,8 +1,52 @@
 import { styles } from "@/styles/splash.styles";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
-import {Animated,Dimensions,Easing,Image,SafeAreaView,Text,View,DimensionValue,} from "react-native";
+import {
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  SafeAreaView,
+  Text,
+  View,
+  DimensionValue,
+} from "react-native";
 import { useAuth } from "@/context/AuthContext";
+
+const { width, height } = Dimensions.get("window");
+
+const FALLING_DOTS = 15;
+const BOTTOM_DOTS = 25;
+
+export default function Index() {
+  const animatedValues = useRef(
+    Array.from({ length: FALLING_DOTS }, () => new Animated.Value(-20))
+  ).current;
+
+  const dots = useMemo(
+    () =>
+      Array.from({ length: FALLING_DOTS }, (_, index) => ({
+        left: Math.random() * width,
+        size: 6 + Math.random() * 8,
+        duration: 3000 + Math.random() * 3000,
+        delay: index * 400,
+        opacity: 0.4 + Math.random() * 0.5,
+      })),
+    []
+  );
+
+  const bottomDots = useMemo(
+    () =>
+      Array.from({ length: BOTTOM_DOTS }, (_, index) => ({
+        left: `${(index * 7) % 100}%` as DimensionValue,
+        bottom: index % 3 === 0 ? 10 : index % 2 === 0 ? 25 : 15,
+        size: 7 + (index % 5),
+      })),
+    []
+  );
+
+  const { isAuthenticated, isLoading } = useAuth();
+
   useEffect(() => {
     animatedValues.forEach((value, index) => {
       const startAnimation = () => {

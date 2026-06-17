@@ -66,6 +66,23 @@ export default function CameraScreen() {
   const [patient, setPatient] = useState<any>(null);
   const cameraRef = useRef<any>(null);
   const { user, isLoading } = useAuth();
+
+  // Inicializa o paciente ativo associado ao cuidador logado
+  useEffect(() => {
+    const initPatient = async () => {
+      try {
+        const currentUserId = user?.id;
+        if (!currentUserId) {
+          return;
+        }
+
+        const patientsList = await fetchPatients(currentUserId);
+        if (patientsList.length > 0) {
+          setPatient(patientsList[0]);
+        } else {
+          // Cria um paciente de exemplo caso não exista nenhum
+          const newPatient = await createPatient("Paciente principal", currentUserId);
+          setPatient(newPatient);
         }
       } catch (err) {
         console.error("Erro ao inicializar paciente:", err);

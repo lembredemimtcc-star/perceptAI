@@ -17,6 +17,32 @@ export async function signUp(
     options: {
       data: { nome, tipo },
     },
+  });
+
+  if (authError) {
+    console.error("Erro no cadastro do Supabase Auth:", authError.message);
+    throw authError;
+  }
+
+  const user = authData.user;
+  if (!user) {
+    throw new Error("Não foi possível criar o usuário no Supabase.");
+  }
+
+  if (!authData.session) {
+    return {
+      id: user.id,
+      nome,
+      email,
+      tipo,
+      created_at: new Date().toISOString(),
+    } as UserProfile;
+  }
+
+  // 2. Cria o registro na tabela de dados complementares 'users'
+  const { data: profileData, error: profileError } = await supabase
+    .from("users")
+    .upsert([
       {
         id: user.id, // Vincula ao ID gerado pelo Auth do Supabase
         nome: nome,
@@ -29,7 +55,6 @@ export async function signUp(
 
   if (profileError) {
     console.error("Erro ao criar perfil de usuário no Supabase:", profileError.message);
-    // Tenta apagar a conta criada no Auth caso ocorra falha na inserção da tabela (opcional)
     throw profileError;
   }
 

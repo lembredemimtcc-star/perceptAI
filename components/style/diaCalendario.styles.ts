@@ -37,3 +37,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderRadius: 10,
     alignItems: "center",
+  },
+
+  buttonText: {
+    color: "#FFF",
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 14,
+  },
+});
