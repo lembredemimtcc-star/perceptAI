@@ -19,10 +19,7 @@ import {
 } from "@expo-google-fonts/poppins";
 
 import {
-<<<<<<< HEAD
-=======
   CameraType,
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   CameraView,
   useCameraPermissions,
 } from "expo-camera";
@@ -38,7 +35,6 @@ import ConfigDeteccao from "@/components/modals/configdeteccao";
 import AjudaModal from "@/components/modals/ajudaModal";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-<<<<<<< HEAD
 import { useAuth } from "@/context/AuthContext";
 import { fetchPatients, createPatient, saveDetection } from "@/services/api";
 
@@ -47,14 +43,6 @@ export default function CameraScreen() {
 
   const [facing, setFacing] =
     useState<CameraFacing>("front");
-=======
-import { getCurrentUser } from "@/services/auth";
-import { fetchPatients, createPatient, saveDetection } from "@/services/api";
-
-export default function CameraScreen() {
-  const [facing, setFacing] =
-    useState<CameraType>("front");
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   const [permission, requestPermission] =
     useCameraPermissions();
@@ -77,16 +65,12 @@ export default function CameraScreen() {
   const [loading, setLoading] = useState(false);
   const [patient, setPatient] = useState<any>(null);
   const cameraRef = useRef<any>(null);
-<<<<<<< HEAD
   const { user, isLoading } = useAuth();
-=======
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   // Inicializa o paciente ativo associado ao cuidador logado
   useEffect(() => {
     const initPatient = async () => {
       try {
-<<<<<<< HEAD
         const currentUserId = user?.id;
         if (!currentUserId) {
           return;
@@ -99,18 +83,6 @@ export default function CameraScreen() {
           // Cria um paciente de exemplo caso não exista nenhum
           const newPatient = await createPatient("Paciente principal", currentUserId);
           setPatient(newPatient);
-=======
-        const session = await getCurrentUser();
-        if (session && session.profile) {
-          const patientsList = await fetchPatients(session.profile.id);
-          if (patientsList.length > 0) {
-            setPatient(patientsList[0]);
-          } else {
-            // Cria um paciente de exemplo caso não exista nenhum
-            const newPatient = await createPatient("Paciente Exemplo", session.profile.id);
-            setPatient(newPatient);
-          }
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
         }
       } catch (err) {
         console.error("Erro ao inicializar paciente:", err);
@@ -118,7 +90,6 @@ export default function CameraScreen() {
     };
 
     requestPermission();
-<<<<<<< HEAD
     if (!isLoading) {
       initPatient();
     }
@@ -126,13 +97,6 @@ export default function CameraScreen() {
 
   function toggleCameraFacing() {
     setFacing((current: CameraFacing) =>
-=======
-    initPatient();
-  }, []);
-
-  function toggleCameraFacing() {
-    setFacing((current) =>
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
       current === "back" ? "front" : "back"
     );
   }
@@ -160,7 +124,7 @@ export default function CameraScreen() {
       }
 
       // 2. Resolve a URL da API C# das variáveis de ambiente
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5246";
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:5198";
       const targetPatientId = patient ? patient.id : "00000000-0000-0000-0000-000000000000";
 
       // 3. Envia para a API C# (PerceptAI.API) rodando em C#
@@ -328,8 +292,4 @@ export default function CameraScreen() {
       />
     </SafeAreaView>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b

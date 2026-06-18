@@ -6,21 +6,25 @@ type Props = {
   visible: boolean;
   onConfirm: () => void;
   onClose: () => void;
+  title?: string;
+  message?: string;
 };
 
 export default function ConfirmacaoModal({
   visible,
   onConfirm,
   onClose,
+  title = "Tem certeza?",
+  message = "Deseja realmente continuar esta ação?",
 }: Props) {
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
-          <Text style={styles.title}>Tem certeza?</Text>
+          <Text style={styles.title}>{title}</Text>
 
           <Text style={styles.message}>
-            Deseja realmente continuar esta ação?
+            {message}
           </Text>
 
           <View style={styles.buttonRow}>

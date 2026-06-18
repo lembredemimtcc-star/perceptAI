@@ -1,11 +1,17 @@
 import { styles } from "@/styles/splash.styles";
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
-import {Animated,Dimensions,Easing,Image,SafeAreaView,Text,View,DimensionValue,} from "react-native";
-<<<<<<< HEAD
+import {
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  SafeAreaView,
+  Text,
+  View,
+  DimensionValue,
+} from "react-native";
 import { useAuth } from "@/context/AuthContext";
-=======
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
 const { width, height } = Dimensions.get("window");
 
@@ -14,7 +20,7 @@ const BOTTOM_DOTS = 25;
 
 export default function Index() {
   const animatedValues = useRef(
-    Array.from({ length: FALLING_DOTS }, () => new Animated.Value(-20)),
+    Array.from({ length: FALLING_DOTS }, () => new Animated.Value(-20))
   ).current;
 
   const dots = useMemo(
@@ -26,25 +32,21 @@ export default function Index() {
         delay: index * 400,
         opacity: 0.4 + Math.random() * 0.5,
       })),
-    [],
+    []
   );
 
   const bottomDots = useMemo(
     () =>
       Array.from({ length: BOTTOM_DOTS }, (_, index) => ({
-        // Usamos 'as DimensionValue' para corrigir o erro de tipagem do TypeScript
         left: `${(index * 7) % 100}%` as DimensionValue,
         bottom: index % 3 === 0 ? 10 : index % 2 === 0 ? 25 : 15,
         size: 7 + (index % 5),
       })),
-    [],
+    []
   );
 
-<<<<<<< HEAD
   const { isAuthenticated, isLoading } = useAuth();
 
-=======
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   useEffect(() => {
     animatedValues.forEach((value, index) => {
       const startAnimation = () => {
@@ -61,7 +63,6 @@ export default function Index() {
       startAnimation();
     });
 
-<<<<<<< HEAD
     if (isLoading) return;
 
     const route = isAuthenticated ? "/(tabs)" : "/autenticacao";
@@ -71,14 +72,6 @@ export default function Index() {
 
     return () => clearTimeout(timer);
   }, [animatedValues, dots, isAuthenticated, isLoading]);
-=======
-    const timer = setTimeout(() => {
-      router.replace("/autenticacao");
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [animatedValues, dots]);
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
 
   return (
     <SafeAreaView style={styles.container}>

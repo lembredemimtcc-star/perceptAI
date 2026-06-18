@@ -1,20 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
-<<<<<<< HEAD
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
-=======
-import React, { useEffect, useState } from "react";
-import {
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   FlatList,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-<<<<<<< HEAD
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -28,6 +21,7 @@ import { fetchPatients, createPatient } from "@/services/api";
 import { fetchAnnotations, deleteAnnotation } from "@/services/annotations";
 import { Annotation } from "@/types/annotation";
 import { Patient } from "@/types/user";
+import ConfirmacaoModal from "@/components/modals/confirmacaoModal";
 
 // ─────────────────────────────────────────────────────────────────────
 // TABLE DEPENDENCIES
@@ -42,36 +36,11 @@ export default function AnotacaoScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const params = useLocalSearchParams();
-=======
-
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-
-import { styles } from "@/styles/anotacao.styles";
-import { router, useLocalSearchParams } from "expo-router";
-
-type Nota = {
-  id: string;
-  titulo: string;
-  texto: string;
-  data: string;
-};
-
-export default function AnotacaoScreen() {
-  const [listaNotas, setListaNotas] = useState<Nota[]>([]);
-  const params = useLocalSearchParams();
-
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
-<<<<<<< HEAD
   const { user, isLoading } = useAuth();
 
   // ── load ─────────────────────────────────────────────────────────
@@ -113,38 +82,30 @@ export default function AnotacaoScreen() {
   }, [params.reload, isLoading, loadAnnotations]);
 
   // ── delete ───────────────────────────────────────────────────────
+  // OBS: Alert.alert do React Native não funciona no ambiente Web
+  // (não exibe diálogo nem dispara os callbacks dos botões), por isso
+  // a confirmação usa o ConfirmacaoModal abaixo, que funciona em
+  // Web e nativo da mesma forma.
+
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   function confirmDelete(id: string) {
-    Alert.alert("Excluir anotação", "Deseja realmente excluir esta anotação?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Excluir",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await deleteAnnotation(id);
-            setListaNotas((prev) => prev.filter((n) => n.id !== id));
-          } catch (err) {
-            console.error("Erro ao deletar anotação:", err);
-            Alert.alert("Erro", "Não foi possível excluir a anotação.");
-          }
-        },
-      },
-    ]);
-=======
+    setDeleteError(null);
+    setDeleteTargetId(id);
+  }
 
-  useEffect(() => {
-    if (params.novaNota) {
-      const novaNota = JSON.parse(params.novaNota as string);
-      setListaNotas((prev) => [novaNota, ...prev]);
+  async function handleConfirmDelete() {
+    if (!deleteTargetId) return;
+    const id = deleteTargetId;
+    setDeleteTargetId(null);
+    try {
+      await deleteAnnotation(id);
+      setListaNotas((prev) => prev.filter((n) => n.id !== id));
+    } catch (err: any) {
+      console.error("Erro ao deletar anotação:", err);
+      setDeleteError(err?.message ?? "Não foi possível excluir a anotação.");
     }
-  }, [params.novaNota]);
-
-  function deletarNota(id: string) {
-    setListaNotas((prev) =>
-      prev.filter((nota) => nota.id !== id)
-    );
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
   }
 
   if (!fontsLoaded) return null;
@@ -155,7 +116,6 @@ export default function AnotacaoScreen() {
         <Text style={styles.titleText}>Anotações</Text>
         <View style={styles.headerLine} />
 
-<<<<<<< HEAD
         {/* ── BUTTONS ── */}
         <View style={styles.buttonsContainer}>
           {/* Refresh */}
@@ -178,6 +138,7 @@ export default function AnotacaoScreen() {
         </View>
 
         {/* ── LIST ── */}
+        {deleteError && <Text style={styles.emptyText}>{deleteError}</Text>}
         {loading ? (
           <ActivityIndicator size="large" color="#F2A31B" style={{ marginTop: 40 }} />
         ) : error ? (
@@ -232,83 +193,15 @@ export default function AnotacaoScreen() {
           />
         )}
       </View>
+
+      {/* Confirmation before deleting an annotation */}
+      <ConfirmacaoModal
+        visible={deleteTargetId !== null}
+        title="Excluir anotação"
+        message="Deseja realmente excluir esta anotação?"
+        onClose={() => setDeleteTargetId(null)}
+        onConfirm={handleConfirmDelete}
+      />
     </SafeAreaView>
   );
 }
-=======
-        {/* BOTÕES */}
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.secondaryButton}>
-            <Text style={styles.secondaryButtonText}>
-              Anotações
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.primaryButton}
-            onPress={() => router.push("/anotacao-nova")}
-          >
-            <Text style={styles.primaryButtonText}>
-              Adicionar Anotação
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          data={listaNotas}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-
-              {/* HEADER */}
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>
-                  {item.titulo}
-                </Text>
-
-                <View style={styles.actions}>
-                  <TouchableOpacity style={styles.continueButton}>
-                    <Text style={styles.continueText}>
-                      Continuar
-                    </Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => deletarNota(item.id)}
-                    style={styles.deleteButton}
-                  >
-                    <Ionicons
-                      name="trash-outline"
-                      size={18}
-                      color="#000"
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {/* DESCRIÇÃO */}
-              <View style={styles.descriptionBox}>
-                <Text style={styles.descriptionTitle}>
-                  Descrição:
-                </Text>
-
-                <Text
-                  style={styles.descriptionText}
-                  numberOfLines={2}
-                >
-                  {item.texto}
-                </Text>
-              </View>
-            </View>
-          )}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>
-              Nenhuma nota anotada ainda.
-            </Text>
-          }
-        />
-      </View>
-    </SafeAreaView>
-  );
-}
->>>>>>> 6e356074b43012b074fc0ec41035721fb5edb60b
