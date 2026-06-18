@@ -90,12 +90,18 @@ CREATE TRIGGER on_auth_user_created
 AFTER INSERT ON auth.users
 FOR EACH ROW EXECUTE FUNCTION public.handle_new_auth_user();
 
+<<<<<<< HEAD
 -- =====================================================================
 -- 2. TABELA: patients
 -- =====================================================================
 -- Pacientes cadastrados e o cuidador responsável por cada um.
 
 CREATE TABLE IF NOT EXISTS public.patients (
+=======
+-- 2. Tabela: patients
+-- Define a relação dos pacientes cadastrados e o cuidador responsável
+CREATE TABLE IF NOT EXISTS patients (
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nome VARCHAR(255) NOT NULL,
     user_id UUID REFERENCES public.users(id) ON DELETE SET NULL,
@@ -124,7 +130,11 @@ CREATE TABLE IF NOT EXISTS public.detections (
 
 CREATE TABLE IF NOT EXISTS public.annotations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+<<<<<<< HEAD
     patient_id UUID REFERENCES public.patients(id) ON DELETE CASCADE NOT NULL,
+=======
+    patient_id UUID REFERENCES patients(id) ON DELETE CASCADE NOT NULL,
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758
     titulo VARCHAR(255) NOT NULL,
     texto TEXT NOT NULL,
     data_nota DATE DEFAULT CURRENT_DATE,
@@ -135,12 +145,18 @@ ALTER TABLE public.annotations
     ADD COLUMN IF NOT EXISTS titulo VARCHAR(255) NOT NULL DEFAULT '',
     ADD COLUMN IF NOT EXISTS data_nota DATE DEFAULT CURRENT_DATE;
 
+<<<<<<< HEAD
 -- =====================================================================
 -- 5. TABELA: alerts
 -- =====================================================================
 -- Alertas disparados ao cuidador quando ocorre uma detecção crítica.
 
 CREATE TABLE IF NOT EXISTS public.alerts (
+=======
+-- 5. Tabela: alerts
+-- Alertas instantâneos disparados para o cuidador caso ocorra uma detecção crítica
+CREATE TABLE IF NOT EXISTS alerts (
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     detection_id UUID REFERENCES public.detections(id) ON DELETE CASCADE NOT NULL,
     cuidador_id UUID REFERENCES public.users(id) ON DELETE CASCADE NOT NULL,
@@ -333,6 +349,7 @@ CREATE POLICY "Caregivers can update own alerts"
 ON public.alerts FOR UPDATE
 USING (auth.uid() = cuidador_id)
 WITH CHECK (auth.uid() = cuidador_id);
+<<<<<<< HEAD
 
 -- =====================================================================
 -- FIM DO SCRIPT
@@ -340,3 +357,5 @@ WITH CHECK (auth.uid() = cuidador_id);
 -- Depois de rodar, vá em Table Editor no painel do Supabase e confirme
 -- que aparecem exatamente estas 5 tabelas: users, patients, detections,
 -- annotations, alerts — cada uma com RLS habilitado (ícone de cadeado).
+=======
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758

@@ -2,6 +2,10 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
+<<<<<<< HEAD
+=======
+  Alert,
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758
   FlatList,
   SafeAreaView,
   Text,
@@ -91,6 +95,7 @@ export default function AnotacaoScreen() {
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   function confirmDelete(id: string) {
+<<<<<<< HEAD
     setDeleteError(null);
     setDeleteTargetId(id);
   }
@@ -106,6 +111,24 @@ export default function AnotacaoScreen() {
       console.error("Erro ao deletar anotação:", err);
       setDeleteError(err?.message ?? "Não foi possível excluir a anotação.");
     }
+=======
+    Alert.alert("Excluir anotação", "Deseja realmente excluir esta anotação?", [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            await deleteAnnotation(id);
+            setListaNotas((prev) => prev.filter((n) => n.id !== id));
+          } catch (err) {
+            console.error("Erro ao deletar anotação:", err);
+            Alert.alert("Erro", "Não foi possível excluir a anotação.");
+          }
+        },
+      },
+    ]);
+>>>>>>> 50c73db75805fa291aade0fa75df626656870758
   }
 
   if (!fontsLoaded) return null;
