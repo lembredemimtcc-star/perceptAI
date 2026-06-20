@@ -2,10 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
-<<<<<<< HEAD
-=======
-  Alert,
->>>>>>> 50c73db75805fa291aade0fa75df626656870758
   FlatList,
   SafeAreaView,
   Text,
@@ -27,12 +23,6 @@ import { Annotation } from "@/types/annotation";
 import { Patient } from "@/types/user";
 import ConfirmacaoModal from "@/components/modals/confirmacaoModal";
 
-// ─────────────────────────────────────────────────────────────────────
-// TABLE DEPENDENCIES
-//   • patients  – to resolve which patient belongs to this cuidador
-//   • annotations – CRUD on annotation records
-// ─────────────────────────────────────────────────────────────────────
-
 export default function AnotacaoScreen() {
   const [listaNotas, setListaNotas] = useState<Annotation[]>([]);
   const [patient, setPatient] = useState<Patient | null>(null);
@@ -48,7 +38,6 @@ export default function AnotacaoScreen() {
   const { user, isLoading } = useAuth();
 
   // ── load ─────────────────────────────────────────────────────────
-
   const loadAnnotations = useCallback(async () => {
     if (!user?.id) {
       setError("Usuário não autenticado.");
@@ -86,16 +75,10 @@ export default function AnotacaoScreen() {
   }, [params.reload, isLoading, loadAnnotations]);
 
   // ── delete ───────────────────────────────────────────────────────
-  // OBS: Alert.alert do React Native não funciona no ambiente Web
-  // (não exibe diálogo nem dispara os callbacks dos botões), por isso
-  // a confirmação usa o ConfirmacaoModal abaixo, que funciona em
-  // Web e nativo da mesma forma.
-
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   function confirmDelete(id: string) {
-<<<<<<< HEAD
     setDeleteError(null);
     setDeleteTargetId(id);
   }
@@ -111,24 +94,6 @@ export default function AnotacaoScreen() {
       console.error("Erro ao deletar anotação:", err);
       setDeleteError(err?.message ?? "Não foi possível excluir a anotação.");
     }
-=======
-    Alert.alert("Excluir anotação", "Deseja realmente excluir esta anotação?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Excluir",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await deleteAnnotation(id);
-            setListaNotas((prev) => prev.filter((n) => n.id !== id));
-          } catch (err) {
-            console.error("Erro ao deletar anotação:", err);
-            Alert.alert("Erro", "Não foi possível excluir a anotação.");
-          }
-        },
-      },
-    ]);
->>>>>>> 50c73db75805fa291aade0fa75df626656870758
   }
 
   if (!fontsLoaded) return null;
@@ -215,16 +180,16 @@ export default function AnotacaoScreen() {
             }
           />
         )}
-      </View>
 
-      {/* Confirmation before deleting an annotation */}
-      <ConfirmacaoModal
-        visible={deleteTargetId !== null}
-        title="Excluir anotação"
-        message="Deseja realmente excluir esta anotação?"
-        onClose={() => setDeleteTargetId(null)}
-        onConfirm={handleConfirmDelete}
-      />
+        {/* Confirmation before deleting an annotation */}
+        <ConfirmacaoModal
+          visible={deleteTargetId !== null}
+          title="Excluir anotação"
+          message="Deseja realmente excluir esta anotação?"
+          onClose={() => setDeleteTargetId(null)}
+          onConfirm={handleConfirmDelete}
+        />
+      </View>
     </SafeAreaView>
   );
 }

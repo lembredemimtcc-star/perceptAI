@@ -34,7 +34,8 @@ import ConfigDeteccao from "@/components/modals/configdeteccao";
 
 import AjudaModal from "@/components/modals/ajudaModal";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import * as ImageManipulator from "expo-image-manipulator";;
 import { useAuth } from "@/context/AuthContext";
 import { fetchPatients, createPatient, saveDetection } from "@/services/api";
 
@@ -112,11 +113,14 @@ export default function CameraScreen() {
       setLoading(true);
 
       // 1. Captura a imagem em base64 com qualidade média para compressão ideal
-      const photo = await cameraRef.current.takePictureAsync({
-        base64: true,
-        quality: 0.5,
-        skipProcessing: true,
+      const originalPhoto = await cameraRef.current.takePictureAsync({
+        quality: 0.2,
       });
+      const resized = await ImageManipulator.manipulateAsync(originalPhoto.uri, [
+        { resize: { width: 400, height: 400 } }
+      ], { compress: 0.2, format: ImageManipulator.SaveFormat.JPEG, base64: true });
+      const photo = resized;
+      console.log(`Payload size: ${(photo.base64?.length ?? 0) / 1024} KB`);
 
       if (!photo || !photo.base64) {
         alert("Erro ao capturar a foto da câmera.");
@@ -128,7 +132,15 @@ export default function CameraScreen() {
       const targetPatientId = patient ? patient.id : "00000000-0000-0000-0000-000000000000";
 
       // 3. Envia para a API C# (PerceptAI.API) rodando em C#
-      const response = await fetch(`${apiUrl}/api/detection/detect`, {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+      // Log the full request URL
+      const requestUrl = `${apiUrl}/api/detection/detect`;
+      console.log('URL:', requestUrl);
+
+      // Prepare fetch options
+      const fetchOptions = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -137,14 +149,26 @@ export default function CameraScreen() {
           image: photo.base64,
           patientId: targetPatientId,
         }),
-      });
+        signal: controller.signal,
+      };
 
+      // Execute fetch with granular error handling
+      const response = await fetch(requestUrl, fetchOptions);
+      clearTimeout(timeoutId);
+
+      // Log response status
+      console.log('Response status:', response.status, response.statusText);
+      // Attempt to read response body as text for debugging
+      const responseText = await response.text();
+      console.log('Response body (raw):', responseText);
+
+      // If response is OK, parse JSON; otherwise throw an error with body info
       if (!response.ok) {
-        throw new Error(`Erro na inferência: ${response.status} - ${response.statusText}`);
+        throw new Error(`Erro na inferência: ${response.status} - ${response.statusText} | Body: ${responseText}`);
       }
 
-      const result = await response.json();
-      // Resposta esperada: { emotion: string, confidence: number, timestamp: string }
+      // Parse JSON from the response text
+      const result = JSON.parse(responseText);
 
       // 4. Formata o horário de recebimento da predição
       const predictionTime = new Date(result.timestamp);
