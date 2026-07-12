@@ -35,7 +35,8 @@ import ConfigDeteccao from "@/components/modals/configdeteccao";
 import AjudaModal from "@/components/modals/ajudaModal";
 
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import * as ImageManipulator from "expo-image-manipulator";;
+import * as ImageManipulator from "expo-image-manipulator";
+import * as FileSystem from "expo-file-system/legacy";
 import { useAuth } from "@/context/AuthContext";
 import { fetchPatients, createPatient, saveDetection } from "@/services/api";
 
@@ -116,9 +117,16 @@ export default function CameraScreen() {
       const originalPhoto = await cameraRef.current.takePictureAsync({
         quality: 0.2,
       });
-      const resized = await ImageManipulator.manipulateAsync(originalPhoto.uri, [
-        { resize: { width: 400, height: 400 } }
-      ], { compress: 0.2, format: ImageManipulator.SaveFormat.JPEG, base64: true });
+      // 2. Redimensiona mantendo aspecto (largura máxima 720) e compressão 0.6
+      const resized = await ImageManipulator.manipulateAsync(
+        originalPhoto.uri,
+        [{ resize: { width: 720 } }], // height is scaled automatically
+        { compress: 0.6, format: ImageManipulator.SaveFormat.JPEG, base64: true }
+      );
+      // 3. Salva a imagem manipulada localmente para inspeção
+      const savedPath = `${FileSystem.documentDirectory}captured_${Date.now()}.jpg`;
+      await FileSystem.moveAsync({ from: resized.uri, to: savedPath });
+      console.log("Imagem salva em:", savedPath);
       const photo = resized;
       console.log(`Payload size: ${(photo.base64?.length ?? 0) / 1024} KB`);
 

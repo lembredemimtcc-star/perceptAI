@@ -1,4 +1,7 @@
 import os
+import subprocess
+
+# ... existing imports remain ...
 import shutil
 import zipfile
 import torch
@@ -6,6 +9,13 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
 from torchvision import models, transforms, datasets
+import extract_target_class
+import download_expression_neutro
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+DATASET_DIR = os.path.join(PROJECT_ROOT, "dataset")
+TEMP_DATASETS_DIR = os.path.join(PROJECT_ROOT, "temp_datasets")
 
 # =====================================================================
 # PIPELINE DE DOWNLOAD, ORGANIZAÇÃO, TREINAMENTO E EXPORTAÇÃO ONNX
@@ -29,7 +39,7 @@ def download_and_extract_datasets():
     api = KaggleApi()
     api.authenticate()
 
-    temp_dir = os.path.abspath("./temp_datasets")
+    temp_dir = TEMP_DATASETS_DIR
     os.makedirs(temp_dir, exist_ok=True)
 
     # Identificadores de datasets no Kaggle
@@ -71,31 +81,84 @@ def copy_images(src_folder, dest_folder):
                 count += 1
     return count
 
+def copy_selected_drowsiness_images(src_folder, dest_folder):
+    """
+    Varre a pasta de imagens procurando .jpg, .jpeg, .png.
+    Para cada imagem, busca o arquivo correspondente na pasta 'labels' paralela à pasta 'images'.
+    Se o arquivo de labels contiver as classes 0 (microsleep) ou 2 (yawning), copia a imagem.
+    """
+    if not os.path.exists(src_folder):
+        print(f"Aviso: Pasta origem '{src_folder}' não existe.")
+        return 0
+
+    # Determina o diretório de labels (irmão de 'images')
+    parent_dir = os.path.dirname(src_folder)
+    labels_folder = os.path.join(parent_dir, "labels")
+
+    if not os.path.exists(labels_folder):
+        print(f"Aviso: Pasta de labels '{labels_folder}' não encontrada. Usando copy_images como fallback.")
+        return copy_images(src_folder, dest_folder)
+
+    count = 0
+    for file in os.listdir(src_folder):
+        if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+            src_file = os.path.join(src_folder, file)
+            # Nome correspondente do label
+            label_name = os.path.splitext(file)[0] + ".txt"
+            label_path = os.path.join(labels_folder, label_name)
+
+            should_copy = False
+            if os.path.exists(label_path):
+                with open(label_path, "r") as lf:
+                    for line in lf:
+                        parts = line.strip().split()
+                        if parts:
+                            try:
+                                cid = int(parts[0])
+                                if cid in (0, 2):  # microsleep ou yawning
+                                    should_copy = True
+                                    break
+                            except ValueError:
+                                pass
+
+            if should_copy:
+                dest_file = os.path.join(dest_folder, f"{count}_{file}")
+                shutil.copy2(src_file, dest_file)
+                count += 1
+    return count
+
+
 def reorganize_datasets():
     """
     Varre as pastas baixadas temporariamente do Kaggle e reorganiza as imagens
-    dentro da pasta final estruturada para o treinamento em 5 classes.
+    dentro da pasta final estruturada para o treinamento em 8 classes.
     """
     print("\n==================================================")
     print("2. REORGANIZANDO IMAGENS NAS PASTAS DE CLASSES...")
     print("==================================================")
 
-    temp_dir = os.path.abspath("./temp_datasets")
-    base_dataset_dir = os.path.abspath("./dataset")
+    temp_dir = TEMP_DATASETS_DIR
+    base_dataset_dir = DATASET_DIR
 
-    classes = ["medo", "enjoo", "dor", "sono", "tristeza"]
-    
-    # Limpa ou inicializa a pasta final do dataset
-    if os.path.exists(base_dataset_dir):
-        print(f"Limpando pasta de dataset anterior: {base_dataset_dir}")
-        shutil.rmtree(base_dataset_dir)
-        
+    # List of all classes (original + new)
+    classes = ["dor", "enjoo", "medo", "sono", "tristeza", "neutro", "acordado", "dormindo"]
+
+    # Ensure base folder exists
+    if not os.path.exists(base_dataset_dir):
+        os.makedirs(base_dataset_dir)
+
+    # Remove only the original class subfolders to avoid wiping new class data
+    for c in ["dor", "enjoo", "medo", "sono", "tristeza"]:
+        dir_path = os.path.join(base_dataset_dir, c)
+        if os.path.isdir(dir_path):
+            shutil.rmtree(dir_path)
+
+    # Recreate all class subfolders (including new ones)
     for c in classes:
         os.makedirs(os.path.join(base_dataset_dir, c), exist_ok=True)
 
     # ----------------------------------------------------
     # CLASSE: dor (pain-detection-face-expressions)
-    # Procuramos recursivamente a pasta "Original" de forma case-insensitive
     # ----------------------------------------------------
     dor_temp_root = os.path.join(temp_dir, "dor")
     pain_src = None
@@ -158,14 +221,21 @@ def reorganize_datasets():
 
     for subdir in drowsiness_subdirs:
         print(f"Copiando imagens de sono de: {subdir}")
-        count_sono += copy_images(subdir, sono_dest)
+        count_sono += copy_selected_drowsiness_images(subdir, sono_dest)
 
     # Fallback caso não encontre as subpastas train/images ou test/images com o nome esperado
     if count_sono == 0:
         print("Aviso: Pastas train/images ou test/images não detectadas de forma estruturada. Varrendo tudo recursivamente.")
-        count_sono += copy_images(drowsiness_temp_root, sono_dest)
+        count_sono += copy_selected_drowsiness_images(drowsiness_temp_root, sono_dest)
 
     print(f"-> Sono (Yawning/Sleep): {count_sono} imagens organizadas.")
+
+    # Remove download folders to avoid PyTorch loading them as classes
+    for folder in ["teleicu_download", "expression_download", "_tmp"]:
+        dir_path = os.path.join(base_dataset_dir, folder)
+        if os.path.exists(dir_path):
+            shutil.rmtree(dir_path)
+
     print("Organização de pastas concluída!")
 
 def train_and_export_model():
@@ -177,7 +247,7 @@ def train_and_export_model():
     print("3. CARREGANDO E TREINANDO O MODELO MOBILENETV2...")
     print("==================================================")
 
-    base_dataset_dir = os.path.abspath("./dataset")
+    base_dataset_dir = DATASET_DIR
     
     # 1. Transformações das imagens (Média/Std ImageNet para coincidir com o ImagePreprocessing da API C#)
     data_transforms = transforms.Compose([
@@ -191,8 +261,48 @@ def train_and_export_model():
 
     # 2. Carrega as imagens do dataset final estruturado
     full_dataset = datasets.ImageFolder(root=base_dataset_dir, transform=data_transforms)
-    print(f"Tamanho total do dataset: {len(full_dataset)} imagens.")
-    print(f"Mapeamento de classes: {full_dataset.class_to_idx}")
+    # Enforce explicit class order for mapping
+    desired_order = ["dor", "enjoo", "medo", "sono", "tristeza", "neutro", "acordado", "dormindo"]
+    class_to_idx = {cls: i for i, cls in enumerate(desired_order)}
+    original_classes = full_dataset.classes
+    full_dataset.class_to_idx = class_to_idx
+    full_dataset.classes = desired_order
+    # Update samples to reflect new indices
+    mapped_samples = [(p, class_to_idx[original_classes[class_idx]]) for p, class_idx in full_dataset.samples]
+    
+    # Under-sample classes to a maximum of 300 images
+    import random
+    from collections import defaultdict
+    
+    grouped_samples = defaultdict(list)
+    for p, label in mapped_samples:
+        grouped_samples[label].append((p, label))
+        
+    final_samples = []
+    class_counts = {}
+    rng = random.Random(42)  # Fixed seed for reproducibility
+    
+    for label_idx, label_name in enumerate(desired_order):
+        samples_in_class = grouped_samples[label_idx]
+        count = len(samples_in_class)
+        if count > 300:
+            sampled = rng.sample(samples_in_class, 300)
+            class_counts[label_name] = 300
+        else:
+            sampled = samples_in_class
+            class_counts[label_name] = count
+        final_samples.extend(sampled)
+        
+    full_dataset.samples = final_samples
+    full_dataset.targets = [label for _, label in final_samples]
+    
+    print("\n==================================================")
+    print("CONTAGEM FINAL DE IMAGENS POR CLASSE (PÓS-UNDERSAMPLING):")
+    for name, count in class_counts.items():
+        print(f"  {name}: {count} imagens")
+    print(f"Tamanho total do dataset reduzido: {len(full_dataset)} imagens.")
+    print("==================================================\n")
+    print(f"Mapeamento de classes forçado: {full_dataset.class_to_idx}")
 
     # Divisão de Treino e Validação (80% treino, 20% validação)
     train_size = int(0.8 * len(full_dataset))
@@ -216,7 +326,7 @@ def train_and_export_model():
 
     # Redefine a camada densa de classificação final para as 5 classes
     num_ftrs = model.classifier[1].in_features
-    model.classifier[1] = nn.Linear(num_ftrs, 5)
+    model.classifier[1] = nn.Linear(num_ftrs, 8)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
@@ -290,10 +400,25 @@ def train_and_export_model():
     print(f"Exportação finalizada!")
     print(f"Arquivo model.onnx gerado no diretório da API C#: {onnx_dest_path}")
 
+import download_roboflow
+
 if __name__ == "__main__":
     try:
+        # Clean Roboflow destination folders to avoid accumulating duplicates
+        for clean_c in ["acordado", "dormindo", "neutro"]:
+            clean_path = os.path.join(DATASET_DIR, clean_c)
+            if os.path.exists(clean_path):
+                shutil.rmtree(clean_path)
+
         download_and_extract_datasets()
+        # Download Roboflow datasets (TeleICU and Expression‑Recognition)
+        download_roboflow.main()
+        # Extract classes from TeleICU CSV (acordado & dormindo)
+        extract_target_class.extract()
+        # Extract neutral class from Expression‑Recognition dataset
+        download_expression_neutro.main()
         reorganize_datasets()
         train_and_export_model()
     except Exception as e:
         print(f"\n[ERRO NO PIPELINE]: {e}")
+

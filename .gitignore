@@ -1,7 +1,35 @@
+# Dependências
 node_modules/
+
+# Variáveis de ambiente
 .env
-expo-env.d.ts
+.env.local
+
+# Expo
 .expo/
+
+# Build outputs
 dist/
 build/
+
+# Logs
 *.log
+
+# Datasets de treino (não subir imagens)
+dataset/
+temp_datasets/
+scripts/dataset/
+
+# Modelo ONNX/PyTorch (arquivos grandes)
+*.onnx
+*.onnx.data
+*.pth
+
+# Imagens de avaliação
+scripts/confusion_matrix.png
+
+# Pastas temporárias de download
+_tmp*/
+teleicu_download/
+expression_download/
+test-images/
