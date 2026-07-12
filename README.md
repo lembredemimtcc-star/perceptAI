@@ -1,207 +1,230 @@
-# 🧠 PerceptAI — Sistema Assistivo de Cuidado
+# 🧠 PerceptAI — Detecção de Emoções Faciais para Pacientes de UTI
 
-O **PerceptAI** é um aplicativo móvel voltado ao cuidado assistivo de pessoas com mobilidade reduzida (tetraplegia, quadriplegia). O app usa a câmera do dispositivo para capturar e analisar microexpressões faciais em tempo real, identificando estados de desconforto e alertando o cuidador instantaneamente.
+<p align="center">
+  <img src="./assets/images/icon.png" alt="PerceptAI Logo" width="120" />
+</p>
 
----
+<p align="center">
+  <strong>Aplicativo mobile de apoio à comunicação de pacientes de UTI com dificuldade de expressão verbal</strong>
+</p>
 
-## 🎨 Emoções Detectadas
-
-O modelo de IA monitora e identifica as seguintes **5 microexpressões**:
-
-| #   | Emoção       | Dataset de Origem                           |
-| --- | ------------ | ------------------------------------------- |
-| 1   | **Medo**     | CK+48 (fear)                                |
-| 2   | **Enjoo**    | CK+48 (disgust)                             |
-| 3   | **Dor**      | Pain Detection Face Expressions             |
-| 4   | **Sono**     | Drowsiness Detection (yawning + microsleep) |
-| 5   | **Tristeza** | CK+48 (sadness)                             |
-
----
-
-## 🏗️ Arquitetura do Sistema
-
-```
-[ Celular / React Native ] --(Frame Base64)--> [ API ASP.NET Core C# ]
-            |                                         |
-            | (Leitura / Escrita / Realtime)          | (Inferência ONNX / MobileNetV2)
-            v                                         v
-   [ -------------------- Supabase (PostgreSQL) -------------------- ]
-```
-
-1. **Front-end (React Native + Expo)** — Captura frames, exibe detecções, envia alertas e mantém histórico em tempo real
-2. **Back-end (PerceptAI.API em ASP.NET Core C#)** — Recebe o frame em Base64, pré-processa e executa inferência com ONNX Runtime
-3. **Banco de Dados (Supabase)** — Persiste usuários, pacientes, detecções e alertas com Realtime via WebSockets
+<p align="center">
+  <img src="https://img.shields.io/badge/React%20Native-Expo-blue?logo=expo" />
+  <img src="https://img.shields.io/badge/.NET-10-purple?logo=dotnet" />
+  <img src="https://img.shields.io/badge/Supabase-green?logo=supabase" />
+  <img src="https://img.shields.io/badge/MobileNetV2-ONNX-orange" />
+  <img src="https://img.shields.io/badge/Acurácia-95.38%25-brightgreen" />
+</p>
 
 ---
 
-## ⚙️ Pré-requisitos
+## 📖 Descrição do Projeto
 
-- **Node.js** 18+ e **Expo CLI**
-- **Python 3.11** com `torch`, `torchvision`, `kaggle`, `onnx`, `onnxscript`
-- **Visual Studio 2022+** com carga de trabalho **ASP.NET e desenvolvimento Web** (.NET 10)
-- **Conta no Supabase** — [supabase.com](https://supabase.com)
-- **Conta no Kaggle** com `kaggle.json` em `C:\Users\<seu-usuario>\.kaggle\kaggle.json`
-- **Expo Go** instalado no celular (Android ou iOS)
+O **PerceptAI** é um sistema de detecção de emoções faciais desenvolvido para auxiliar profissionais de saúde no monitoramento de pacientes internados em UTI (Unidade de Terapia Intensiva) que possuem dificuldade ou impossibilidade de comunicação verbal.
 
----
+Por meio da câmera do celular, o app captura o rosto do paciente, envia a imagem para uma API de inteligência artificial e retorna em tempo real a emoção detectada — como dor, medo, tristeza, enjoo ou sonolência — além de identificar se o paciente está acordado ou dormindo.
 
-## 📦 Dependências Principais (Front-end)
+### 🎯 Objetivo
+Permitir que enfermeiros e médicos de UTI identifiquem rapidamente o estado emocional e físico do paciente, registrem ocorrências e tomem decisões clínicas com mais agilidade e precisão.
 
-| Pacote                                      | Versão    | Função                               |
-| ------------------------------------------- | --------- | ------------------------------------ |
-| `expo`                                      | ^54.0.0   | Framework base                       |
-| `expo-router`                               | ~6.0.23   | Navegação por arquivos               |
-| `expo-camera`                               | ~17.0.10  | Captura de frames                    |
-| `@supabase/supabase-js`                     | ^2.106.1  | Cliente do banco de dados            |
-| `@react-native-async-storage/async-storage` | 2.2.0     | Persistência local (sessão Supabase) |
-| `react-native-gesture-handler`              | ~2.28.0   | Gestos e navegação                   |
-| `react-native-reanimated`                   | ~4.1.1    | Animações                            |
-| `react-native-safe-area-context`            | ~5.6.0    | Áreas seguras de tela                |
-| `react-native-calendars`                    | ^1.1314.0 | Calendário de histórico              |
-| `@react-navigation/drawer`                  | ^7.5.0    | Menu lateral                         |
-| `@expo-google-fonts/poppins`                | ^0.4.1    | Tipografia                           |
+### 🛠️ Tecnologias Utilizadas
+
+| Camada | Tecnologia |
+|---|---|
+| App Mobile | React Native + Expo (TypeScript) |
+| Back-end / API | C# + ASP.NET Core (.NET 10) |
+| Banco de Dados | Supabase (PostgreSQL) |
+| Modelo de IA | MobileNetV2 (PyTorch → ONNX) |
+| Inferência | ONNX Runtime (Microsoft.ML.OnnxRuntime) |
+| Autenticação | Supabase Auth |
 
 ---
 
-## 🚀 Como Rodar o Projeto
+## ✅ Pré-requisitos
 
-Siga a ordem abaixo para colocar o ecossistema no ar:
+Antes de começar, certifique-se de ter instalado:
 
-### 1. Configurar o Supabase
-
-1. Crie um projeto em [supabase.com](https://supabase.com)
-2. Acesse **SQL Editor → New Query**
-3. Cole o conteúdo de `supabase_schema.sql` e clique em **Run**
-4. Copie em **Settings → API**:
-   - `Project URL`
-   - `anon public key`
-
-### 2. Configurar o `.env` do Front-end
-
-Abra `.env` na raiz do projeto `perceptAI` e preencha:
-
-```env
-EXPO_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=sua-anon-key-aqui
-EXPO_PUBLIC_API_URL=http://10.0.2.2:5198
-```
-
-> **Dica:** Use `http://10.0.2.2:5198` para emulador Android, ou o IP local da máquina (ex: `http://192.168.1.50:5198`) para celular físico via Expo Go na mesma rede Wi-Fi.
-
-### 3. Treinar o Modelo de IA
-
-```bash
-cd C:\Users\<seu-usuario>\Desktop\perceptAI\scripts
-python train.py
-```
-
-O script irá:
-
-- Baixar os datasets do Kaggle automaticamente
-- Organizar as imagens nas 5 classes
-- Treinar o MobileNetV2 por 5 épocas (~99% de acurácia)
-- Exportar `model.onnx` para `PerceptAI.API/ML/model.onnx`
-
-### 4. Rodar a API C# no Visual Studio
-
-1. Abra `C:\Users\<seu-usuario>\Desktop\PerceptAI.API` no Visual Studio
-2. Confirme que `ML/model.onnx` existe
-3. Pressione **F5** ou clique em **Play**
-4. Acesse a documentação interativa em: `http://localhost:5198/scalar/v1`
-
-### 5. Rodar o App
-
-```bash
-cd C:\Users\<seu-usuario>\Desktop\perceptAI
-npm run start
-```
-
-- Escaneie o QR Code com o **Expo Go**
-- Ou pressione `a` para abrir no emulador Android
+- [Node.js](https://nodejs.org/) (v18 ou superior)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Python 3.11](https://www.python.org/downloads/)
+- [Visual Studio 2022 Community](https://visualstudio.microsoft.com/vs/community/) com workload **ASP.NET and web development**
+- Expo CLI global:
+  ```bash
+  npm install -g expo-cli
+  ```
+- Celular Android com o **Development Build** do PerceptAI instalado
 
 ---
 
-## 📂 Estrutura de Pastas
+## 🚀 Passo a Passo para Rodar o Projeto
 
-### Front-end (`perceptAI`)
+### 🔧 1. Back-end — API C# (ASP.NET Core)
 
-```
-perceptAI/
-├── app/
-│   ├── (tabs)/               # Abas: Home, Anotações, Configurações, Perfil
-│   ├── camera.tsx            # Captura de frame e envio para API
-│   ├── historico.tsx         # Histórico com Realtime do Supabase
-│   ├── login.tsx             # Autenticação
-│   ├── cadastro.tsx          # Cadastro de cuidador
-│   └── anotacao-nova.tsx     # Nova anotação manual
-├── components/
-│   ├── buttons/              # LoginButton, PrimaryButton, etc.
-│   ├── header/               # Header global
-│   ├── modals/               # Modais: ajuda, calendário, configdeteccao
-│   └── navigation/           # CustomDrawer
-├── scripts/
-│   ├── train.py              # Pipeline completo de treino e exportação ONNX
-│   └── export_onnx.py        # Exportação auxiliar
-├── services/
-│   ├── api.ts                # Queries do Supabase
-│   ├── auth.ts               # Login, cadastro e sessão
-│   └── supabaseClient.ts     # Configuração do cliente Supabase
-├── styles/                   # Estilos por tela (não modificar)
-├── types/
-│   ├── emotion.ts            # Tipos de emoções e detecções
-│   └── user.ts               # Tipos de usuário e paciente
-└── .env                      # Variáveis de ambiente (não versionar)
-```
+1. **Abra** a solução `PerceptAI.API` no Visual Studio 2022.
 
-### Back-end (`PerceptAI.API`)
+2. **Configure** o arquivo `appsettings.json` com suas credenciais. Use o arquivo `appsettings.Example.json` como base:
+   ```json
+   {
+     "Supabase": {
+       "Url": "https://SEU_PROJETO.supabase.co",
+       "Key": "SUA_ANON_KEY"
+     }
+   }
+   ```
+   > ⚠️ O `appsettings.json` **não está no repositório** por segurança. Crie-o manualmente.
 
-```
-PerceptAI.API/
-├── Controllers/
-│   └── DetectionController.cs    # POST /api/detection/detect
-├── ML/
-│   └── model.onnx                # Modelo exportado (gerado pelo train.py)
-├── Models/
-│   ├── DetectionRequest.cs       # { image: base64, patientId: uuid }
-│   └── DetectionResponse.cs      # { emotion, confidence, timestamp }
-├── Services/
-│   ├── ImagePreprocessingService.cs  # Decode Base64 → resize 224x224 → normalizar
-│   └── EmotionDetectionService.cs    # Inferência ONNX + Softmax
-├── appsettings.json              # Threshold (padrão: 0.75)
-└── Program.cs                    # CORS, Scalar, injeção de dependências
-```
+3. **Verifique** se a porta 5198 está livre:
+   ```bash
+   netstat -ano | findstr :5198
+   ```
+   Se retornar algum processo, encerre-o antes de continuar.
+
+4. **Selecione** o perfil de execução **"http"** na barra do Visual Studio (jamais use IIS Express!).
+
+5. **Pressione F5** para iniciar a API.
+
+6. **Confirme** que o terminal exibe:
+   ```
+   Now listening on: http://0.0.0.0:5198
+   ```
+
+> ⚠️ **Nunca** rode a API pelo terminal **e** pelo Visual Studio ao mesmo tempo — causará conflito de porta!
 
 ---
 
-## 🗄️ Banco de Dados (Supabase)
+### 📱 2. Front-end — App React Native (Expo)
 
-| Tabela        | Descrição                                               |
-| ------------- | ------------------------------------------------------- |
-| `users`       | Cuidadores e pacientes (tipo: `cuidador` \| `paciente`) |
-| `patients`    | Pacientes vinculados a um cuidador                      |
-| `detections`  | Histórico de detecções (emoção + confiança + timestamp) |
-| `annotations` | Anotações manuais do cuidador                           |
-| `alerts`      | Alertas gerados por detecções críticas                  |
+1. **Instale as dependências** na pasta do projeto:
+   ```bash
+   npm install
+   ```
 
-Realtime habilitado nas tabelas `detections` e `alerts`.
+2. **Descubra seu IP local** (rede Wi-Fi — **não use `localhost`!**):
+   ```bash
+   ipconfig
+   ```
+   Procure por **"Endereço IPv4"** na seção do adaptador Wi-Fi. Exemplo: `192.168.1.105`
+
+3. **Crie o arquivo** `.env.local` na raiz do projeto:
+   ```env
+   EXPO_PUBLIC_SUPABASE_URL=sua_url_aqui
+   EXPO_PUBLIC_SUPABASE_ANON_KEY=sua_chave_aqui
+   EXPO_PUBLIC_API_URL=http://SEU_IP_LOCAL:5198
+   ```
+   Substitua `SEU_IP_LOCAL` pelo IP encontrado no passo anterior.
+
+   > ⚠️ O `.env.local` **não está no repositório** por segurança. Crie-o manualmente.
+
+4. **Inicie o servidor Expo** com o Development Client:
+   ```bash
+   npx expo start --dev-client
+   ```
+
+5. **Abra o app PerceptAI** no celular (Development Build) e escaneie o QR Code exibido no terminal.
 
 ---
 
-## 🐛 Problemas Conhecidos e Soluções
+## ⚠️ Avisos Importantes
 
-| Problema                                   | Causa                                                 | Solução                                                          |
-| ------------------------------------------ | ----------------------------------------------------- | ---------------------------------------------------------------- |
-| Conflitos de merge nos arquivos `.tsx`     | Merge simultâneo de branches                          | Resolvidos mantendo a versão HEAD com integrações do Supabase    |
-| `AsyncStorageError: Native module is null` | Supabase usando AsyncStorage legado com Expo Go       | Configurar `storage: AsyncStorage` no `createClient` do Supabase |
-| `SafeAreaView` depreciado                  | Uso do componente do React Native puro                | Substituir pela versão de `react-native-safe-area-context`       |
-| Swagger retornando 404 no .NET 10          | .NET 10 não inclui Swagger por padrão                 | Substituído pelo **Scalar** em `/scalar/v1`                      |
-| Dataset de sono com 0 imagens              | Imagens em subpastas `train/images/` e `test/images/` | `train.py` atualizado para buscar recursivamente                 |
-| `Network request failed` no cadastro       | URL do Supabase incorreta no `.env`                   | Verificar variáveis do `.env` e conexão de rede                  |
-| Porta da API diferente do `.env`           | Visual Studio atribui porta automaticamente           | Atualizar `EXPO_PUBLIC_API_URL` com a porta correta (5198)       |
+| Situação | O que fazer |
+|---|---|
+| Celular não conecta na API | Confirme que celular e PC estão na **mesma rede Wi-Fi** |
+| IP mudou após reconectar | Rode `ipconfig` novamente e atualize o `EXPO_PUBLIC_API_URL` no `.env.local` |
+| Porta 5198 em uso | Rode `netstat -ano \| findstr :5198` e encerre o processo |
+| API não responde | Verifique se selecionou o perfil **"http"** (não IIS Express) no Visual Studio |
+| Modelo não carrega | Confirme que `PerceptAI.API/ML/model.onnx` existe (não está no repositório, deve ser gerado com `scripts/train.py`) |
 
 ---
 
-## 👩‍💻 Desenvolvido por
+## 📂 Arquivos Importantes
 
-Projeto acadêmico — TCC  
-Tecnologias: React Native · Expo · ASP.NET Core · ONNX Runtime · MobileNetV2 · Supabase · Python · PyTorch
+### 📱 Front-end (React Native)
+
+| Arquivo | Descrição |
+|---|---|
+| `app/camera.tsx` | Tela da câmera — captura, comprime e envia imagem para a API |
+| `app/index.tsx` | Tela Home |
+| `app/anotacao.tsx` | Tela de anotações com calendário |
+| `app/alertas.tsx` | Tela de histórico de alertas |
+| `app/configuracoes.tsx` | Tela de configurações |
+| `app/perfil.tsx` | Tela de perfil do usuário |
+| `.env.local` | Variáveis de ambiente (**não está no repositório!**) |
+
+### 🔧 Back-end (ASP.NET Core)
+
+| Arquivo | Descrição |
+|---|---|
+| `PerceptAI.API/Services/ImagePreprocessingService.cs` | Pré-processa a imagem (resize, normalização, tensor NCHW) |
+| `PerceptAI.API/Services/EmotionDetectionService.cs` | Carrega o modelo ONNX e executa a inferência |
+| `PerceptAI.API/Services/SupabaseService.cs` | Salva detecções no banco Supabase |
+| `PerceptAI.API/Controllers/DetectionController.cs` | Rota `POST /api/detection/detect` |
+| `PerceptAI.API/ML/model.onnx` | Modelo treinado (**não está no repositório!**) |
+| `PerceptAI.API/appsettings.json` | Configurações da API (**não está no repositório!**) |
+| `PerceptAI.API/appsettings.Example.json` | Exemplo de configuração sem credenciais reais |
+
+### 🤖 Scripts de IA (Python)
+
+| Arquivo | Descrição |
+|---|---|
+| `scripts/train.py` | Pipeline completo de treino do modelo de IA |
+| `scripts/evaluate.py` | Avalia o modelo e gera métricas + matriz de confusão |
+| `scripts/extract_target_class.py` | Extrai imagens acordado/dormindo do dataset DDD |
+| `copy_ddd.py` | Copia 300 imagens do dataset DDD para as pastas de classe |
+| `scripts/download_roboflow.py` | Baixa dataset de expressões faciais do Roboflow |
+| `scripts/download_neutral_coco.py` | Baixa imagens neutras do COCO dataset |
+| `scripts/process_neutral_coco.py` | Processa imagens neutras do COCO |
+
+---
+
+## 🧠 Classes Detectadas pelo Modelo
+
+| Índice | Classe | Descrição |
+|:---:|---|---|
+| 0 | `dor` | Expressão de dor |
+| 1 | `enjoo` | Expressão de enjoo/náusea |
+| 2 | `medo` | Expressão de medo |
+| 3 | `sono` | Estado de sonolência |
+| 4 | `tristeza` | Expressão de tristeza |
+| 5 | `neutro` | Expressão neutra |
+| 6 | `acordado` | Paciente acordado |
+| 7 | `dormindo` | Paciente dormindo |
+
+---
+
+## 📊 Métricas do Modelo
+
+| Métrica | Valor |
+|---|---|
+| **Acurácia Geral** | **95,38%** |
+| **F1-Score Médio** | **91,05%** |
+| Arquitetura | MobileNetV2 (transfer learning) |
+| Formato de exportação | ONNX |
+| Runtime de inferência | Microsoft.ML.OnnxRuntime |
+
+---
+
+## 🗄️ Banco de Dados
+
+O projeto utiliza o **Supabase** como backend de banco de dados. O schema completo está disponível em:
+
+```
+supabase_schema.sql
+```
+
+Para criar as tabelas, execute o conteúdo desse arquivo no **SQL Editor** do seu projeto Supabase.
+
+---
+
+## 🔒 Segurança
+
+Os seguintes arquivos **não estão no repositório** e devem ser criados manualmente:
+
+- `.env.local` — variáveis de ambiente do front-end (chaves Supabase + IP da API)
+- `appsettings.json` — configurações do back-end com credenciais Supabase
+- `PerceptAI.API/ML/model.onnx` — modelo treinado (gerado via `scripts/train.py`)
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido como Trabalho de Conclusão de Curso (TCC). Todos os direitos reservados.
